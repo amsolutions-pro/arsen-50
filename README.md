@@ -43,18 +43,18 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* La page démarre par un choix de **restaurant** (actuellement Livingston et Malkhas Jazz Club), puisque ce n'est pas encore tranché. Chaque restaurant a son propre menu.
+* La page démarre par un choix de **restaurant** (actuellement Livingston, Malkhas Jazz Club et Mezzo), puisque ce n'est pas encore tranché. Chaque restaurant a son propre menu.
 * Une fois le restaurant choisi, chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant à ce restaurant.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
-* Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
+* Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
 
 ### Restreindre à un seul restaurant plus tard
 
-Une fois le choix du restaurant tranché, ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et passez `enabled: false` sur celui que vous retirez. L'étape de sélection disparaît automatiquement dès qu'il ne reste qu'un seul restaurant activé — le reste du site continue de fonctionner sans autre changement.
+Une fois le choix du restaurant tranché, ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et passez `enabled: false` sur ceux que vous retirez. L'étape de sélection disparaît automatiquement dès qu'il ne reste qu'un seul restaurant activé — le reste du site continue de fonctionner sans autre changement.
 
-### ⚠️ Le menu Malkhas Jazz Club est provisoire
+### ⚠️ Les menus Malkhas Jazz Club et Mezzo sont provisoires
 
-Je n'ai pas trouvé de carte détaillée en ligne pour Malkhas Jazz Club (seulement des mentions générales : steaks, pâtes, côtelettes de porc, plateaux de fromages/olives/pain). Les plats listés dans `RESTAURANTS` (section `malkhas`, dans `index.html` **et** dans `google-apps-script.gs`) sont donc une approximation à corriger avec le vrai menu du restaurant avant d'envoyer le lien aux invités.
+Je n'ai pas trouvé de carte détaillée en ligne pour ces deux restaurants — seulement des mentions générales issues d'avis publics (steaks, pâtes, côtelettes de porc, plateaux de fromages pour Malkhas ; cheese platter, saumon, tomahawk, agneau pour Mezzo). Les plats listés dans `RESTAURANTS` (sections `malkhas` et `mezzo`, dans `index.html` **et** dans `google-apps-script.gs`) sont donc une approximation à corriger avec le vrai menu de chaque restaurant avant d'envoyer le lien aux invités.
 
 ## Mettre à jour le script plus tard (ex. après un changement de menu)
 

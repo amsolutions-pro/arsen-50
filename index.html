@@ -6,7 +6,7 @@
 <title>Դիմավորենք Արսենի 50-ամյակը</title>
 </head>
 <body>
-<!-- build: 2026-08-17-restaurant-picker -->
+<!-- build: 2026-08-17-add-mezzo -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500&family=Noto+Sans+Armenian:wght@400;500;600&display=swap');
 
@@ -273,6 +273,36 @@ body { margin: 0; }
             { name: 'Ստեյք', desc: '' },
             { name: 'Փաստա', desc: '' },
             { name: 'Խոզի կողիկ', desc: '' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'mezzo',
+      name: 'Mezzo',
+      enabled: true,
+      note: 'Ցանկը դեռ նախնական է (հրապարակային կարծիքներից) — կճշգրտվի ռեստորանի իրական մենյուով։',
+      categories: [
+        {
+          key: 'salad',
+          title: 'Սառը նախուտեստներ',
+          required: true,
+          note: 'Ցանկը դեռ նախնական է — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
+          items: [
+            { name: 'Պանրերի սկուտեղ', desc: '' },
+            { name: 'Կեսարի աղցան', desc: '' },
+            { name: 'Սաղմոնով աղցան', desc: '' }
+          ]
+        },
+        {
+          key: 'main',
+          title: 'Տաք ուտեստներ',
+          required: true,
+          items: [
+            { name: 'Գառան կողիկ', desc: '' },
+            { name: 'Տոմահոկ ստեյք', desc: '' },
+            { name: 'Սաղմոն ստեյք', desc: '' },
+            { name: 'Պղպեղով ստեյք', desc: '' }
           ]
         }
       ]
