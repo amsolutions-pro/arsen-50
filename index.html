@@ -475,12 +475,19 @@ body { margin: 0; }
 
     countBlock.style.display = 'block';
     modalSlot.innerHTML = '';
-    categoriesEl.innerHTML = '<p style="padding:0 1.5rem; font-size:13px; color:#8A5A34;">Բեռնվում է…</p>';
+
+    // Show the default guest count and categories right away; the saved
+    // answer (if any) arrives a moment later over the network and only
+    // overwrites the view then, so the user isn't stuck staring at "Բեռնվում է…".
+    applyDefaults(fam);
 
     apiGet({ action: 'get', family: fam }).then(function(res){
-      var existing = (res && res.record) ? res.record : null;
+      // The user may have already switched to a different family while
+      // this request was in flight; ignore a stale response.
+      if (state.family !== fam) return;
 
-      if (!existing) { applyDefaults(fam); return; }
+      var existing = (res && res.record) ? res.record : null;
+      if (!existing) return;
 
       state.guestCount = existing.guestCount || (FAMILY_DEFAULTS[fam] || 1);
       lastCountValue = state.guestCount;
@@ -499,9 +506,7 @@ body { margin: 0; }
       note.style.color = '#AD8A4C';
       note.style.margin = '0.5rem 1.5rem 0';
       countBlock.parentNode.insertBefore(note, countBlock.nextSibling);
-    }).catch(function(){
-      applyDefaults(fam);
-    });
+    }).catch(function(){});
   });
 
   guestCountInput.addEventListener('change', function(){
