@@ -43,22 +43,23 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* La page démarre par un choix de **restaurant** entre **Mezzo** et **Lavash** (Livingston et Malkhas Jazz Club restent définis dans le code, avec leurs menus, mais désactivés — `enabled: false`).
-* Une fois le restaurant choisi, chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant à ce restaurant.
+* Le choix du restaurant est désormais réglé sur **Lavash** : Livingston, Malkhas Jazz Club et Mezzo sont toujours définis dans le code (avec leurs menus) mais désactivés (`enabled: false`), donc l'étape de choix de restaurant ne s'affiche plus — la page va directement au formulaire famille/menu de Lavash.
+* Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant au restaurant actif.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
 * Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`, `Responses – Lavash`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
 
-### Restreindre à un seul restaurant plus tard
+### Réactiver le choix entre plusieurs restaurants
 
-Ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et passez `enabled: false` sur ceux que vous retirez (ou `enabled: true` pour réactiver Livingston/Malkhas). L'étape de sélection disparaît automatiquement dès qu'il ne reste qu'un seul restaurant activé.
+Ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et repassez `enabled: true` sur ceux que vous voulez réafficher. Dès que plus d'un restaurant est activé, l'étape de sélection réapparaît automatiquement.
 
 ### Menu Mezzo — vérifié
 
-Le menu Mezzo (Աղցաններ, Հիմնական ուտեստներ, Սթեյք, Պաստա և խավարտ) a été saisi à partir des photos de la vraie carte du restaurant — ce n'est plus une approximation.
+Le menu Mezzo (Աղցաններ, Հիմնական ուտեստներ, Սթեյք, Պաստա և խավարտ) a été saisi à partir des photos de la vraie carte du restaurant.
 
-### ⚠️ Le menu Lavash (comme Malkhas) est provisoire
+### Menu Lavash — partiellement vérifié
 
-Comme pour Malkhas Jazz Club, je n'ai trouvé aucune carte structurée en ligne pour Lavash — seulement des plats mentionnés dans des avis publics (dolma, khinkali, ghapama, côtes de porc au khorovats, harissa, arishta, légumes grillés). Les plats listés dans `RESTAURANTS` (section `lavash`, dans `index.html` **et** dans `google-apps-script.gs`) sont donc à corriger avec le vrai menu — envoyez des photos de la carte (comme pour Mezzo) pour que ce soit fiable avant d'envoyer le lien aux invités.
+* **Ձկնային ուտեստներ (poissons)** : vérifié, saisi à partir de la vraie carte (9 plats avec prix confirmés).
+* **Նախուտեստներ, Հիմնական ուտեստներ, Խավարտներ** : toujours provisoires — basés sur des mentions dans des avis publics (dolma, khinkali, ghapama, côtes de porc au khorovats, harissa, arishta, légumes grillés), aucune carte structurée trouvée en ligne pour ces sections. Envoyez des photos de la carte (comme pour la section poissons ou pour Mezzo) pour les compléter avant d'envoyer le lien aux invités — ces catégories restent marquées « ցանկը դեռ նախնական է » sur la page tant que ce n'est pas fait.
 
 ### ⚠️ Les menus Malkhas Jazz Club et Livingston (s'ils sont réactivés un jour)
 

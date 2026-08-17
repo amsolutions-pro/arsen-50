@@ -6,7 +6,7 @@
 <title>Դիմավորենք Արսենի 50-ամյակը</title>
 </head>
 <body>
-<!-- build: 2026-08-17-add-lavash -->
+<!-- build: 2026-08-17-lavash-only-fish -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500&family=Noto+Sans+Armenian:wght@400;500;600&display=swap');
 
@@ -280,7 +280,7 @@ body { margin: 0; }
     {
       id: 'mezzo',
       name: 'Mezzo',
-      enabled: true,
+      enabled: false,
       categories: [
         {
           key: 'salad',
@@ -350,13 +350,12 @@ body { margin: 0; }
       id: 'lavash',
       name: 'Lavash',
       enabled: true,
-      note: 'Ցանկը դեռ նախնական է (հրապարակային տեղեկությունից) — կճշգրտվի ռեստորանի իրական մենյուով։',
       categories: [
         {
           key: 'salad',
           title: 'Նախուտեստներ',
           required: true,
-          note: 'Ցանկը դեռ նախնական է — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
+          note: 'Ցանկը դեռ նախնական է (հրապարակային տեղեկությունից) — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
           items: [
             { name: 'Դոլմա', desc: 'տավարի սուկով դոլմա' },
             { name: 'Խինկալի', desc: '' },
@@ -368,6 +367,7 @@ body { margin: 0; }
           key: 'main',
           title: 'Հիմնական ուտեստներ',
           required: true,
+          note: 'Ցանկը դեռ նախնական է (հրապարակային տեղեկությունից) — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
           items: [
             { name: 'Խոզի կողիկ խորոված', desc: '' },
             { name: 'Արիշտա', desc: 'տնական հայկական լապշա' },
@@ -375,9 +375,26 @@ body { margin: 0; }
           ]
         },
         {
+          key: 'fish',
+          title: 'Ձկնային ուտեստներ',
+          required: true,
+          items: [
+            { name: 'Սաղմոնի սթեյք ռոքֆորի սոուսով', desc: '' },
+            { name: 'Շոգեխաշած իշխան', desc: '' },
+            { name: 'Ջերմուկի կարմրախայտ շոգեխաշած', desc: '' },
+            { name: 'Սաղմոն կիտրոնի սոուսով', desc: '' },
+            { name: 'Լավաշով գավառական իշխան', desc: '' },
+            { name: 'Խորոված իշխան', desc: '' },
+            { name: 'Խորոված Սևանի սիգ', desc: '1 կգ' },
+            { name: 'Խորոված թառափ (ստերլետ)', desc: '1 կգ' },
+            { name: 'Խորոված թառափ (ստերլետ), 2 կտոր', desc: '' }
+          ]
+        },
+        {
           key: 'side',
           title: 'Խավարտներ',
           required: true,
+          note: 'Ցանկը դեռ նախնական է (հրապարակային տեղեկությունից) — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
           items: [
             { name: 'Խորոված բանջարեղեն', desc: '' }
           ]
