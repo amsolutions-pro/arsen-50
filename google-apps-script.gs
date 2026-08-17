@@ -148,6 +148,38 @@ var RESTAURANTS = {
         ]
       }
     ]
+  },
+  lavash: {
+    version: 'v1-lavash',
+    sheetName: 'Responses – Lavash',
+    categories: [
+      {
+        key: 'salad',
+        title: 'ՆԱԽՈՒՏԵՍՏՆԵՐ',
+        items: [
+          'Դոլմա',
+          'Խինկալի',
+          'Սմբուկի գլանիկներ (վոլորան)',
+          'Ղափամա'
+        ]
+      },
+      {
+        key: 'main',
+        title: 'ՀԻՄՆԱԿԱՆ ՈՒՏԵՍՏՆԵՐ',
+        items: [
+          'Խոզի կողիկ խորոված',
+          'Արիշտա',
+          'Հարիսա'
+        ]
+      },
+      {
+        key: 'side',
+        title: 'ԽԱՎԱՐՏՆԵՐ',
+        items: [
+          'Խորոված բանջարեղեն'
+        ]
+      }
+    ]
   }
 };
 

@@ -6,7 +6,7 @@
 <title>Դիմավորենք Արսենի 50-ամյակը</title>
 </head>
 <body>
-<!-- build: 2026-08-17-mezzo-only -->
+<!-- build: 2026-08-17-add-lavash -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500&family=Noto+Sans+Armenian:wght@400;500;600&display=swap');
 
@@ -342,6 +342,44 @@ body { margin: 0; }
             { name: 'Բանջարեղեն', desc: '' },
             { name: 'Բրինձ', desc: '' },
             { name: 'Ծնեբեկ', desc: '' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'lavash',
+      name: 'Lavash',
+      enabled: true,
+      note: 'Ցանկը դեռ նախնական է (հրապարակային տեղեկությունից) — կճշգրտվի ռեստորանի իրական մենյուով։',
+      categories: [
+        {
+          key: 'salad',
+          title: 'Նախուտեստներ',
+          required: true,
+          note: 'Ցանկը դեռ նախնական է — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
+          items: [
+            { name: 'Դոլմա', desc: 'տավարի սուկով դոլմա' },
+            { name: 'Խինկալի', desc: '' },
+            { name: 'Սմբուկի գլանիկներ (վոլորան)', desc: '' },
+            { name: 'Ղափամա', desc: 'միս լցոնված դդում' }
+          ]
+        },
+        {
+          key: 'main',
+          title: 'Հիմնական ուտեստներ',
+          required: true,
+          items: [
+            { name: 'Խոզի կողիկ խորոված', desc: '' },
+            { name: 'Արիշտա', desc: 'տնական հայկական լապշա' },
+            { name: 'Հարիսա', desc: '' }
+          ]
+        },
+        {
+          key: 'side',
+          title: 'Խավարտներ',
+          required: true,
+          items: [
+            { name: 'Խորոված բանջարեղեն', desc: '' }
           ]
         }
       ]
