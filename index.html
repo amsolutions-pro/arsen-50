@@ -6,6 +6,7 @@
 <title>Դիմավորենք Արսենի 50-ամյակը</title>
 </head>
 <body>
+<!-- build: 2026-08-17-instant-guest-count -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500&family=Noto+Sans+Armenian:wght@400;500;600&display=swap');
 
@@ -476,37 +477,42 @@ body { margin: 0; }
     countBlock.style.display = 'block';
     modalSlot.innerHTML = '';
 
-    // Show the default guest count and categories right away; the saved
-    // answer (if any) arrives a moment later over the network and only
-    // overwrites the view then, so the user isn't stuck staring at "Բեռնվում է…".
+    // Guest count + menu are hardcoded in this file already (FAMILY_DEFAULTS,
+    // CATEGORIES) — no network round-trip needed to show them, so do it now,
+    // synchronously, before anything else touches the network.
     applyDefaults(fam);
 
-    apiGet({ action: 'get', family: fam }).then(function(res){
-      // The user may have already switched to a different family while
-      // this request was in flight; ignore a stale response.
-      if (state.family !== fam) return;
+    // Only *after* the browser has had a chance to paint that instant view do
+    // we check in the background whether this family already answered. This
+    // is a nice-to-have prefill, never a prerequisite for showing the form.
+    requestAnimationFrame(function(){
+      apiGet({ action: 'get', family: fam }).then(function(res){
+        // The user may have already switched to a different family while
+        // this request was in flight; ignore a stale response.
+        if (state.family !== fam) return;
 
-      var existing = (res && res.record) ? res.record : null;
-      if (!existing) return;
+        var existing = (res && res.record) ? res.record : null;
+        if (!existing) return;
 
-      state.guestCount = existing.guestCount || (FAMILY_DEFAULTS[fam] || 1);
-      lastCountValue = state.guestCount;
-      guestCountInput.value = state.guestCount;
+        state.guestCount = existing.guestCount || (FAMILY_DEFAULTS[fam] || 1);
+        lastCountValue = state.guestCount;
+        guestCountInput.value = state.guestCount;
 
-      state.selections = {};
-      CATEGORIES.forEach(function(c){
-        state.selections[c.key] = existing[c.key] ? JSON.parse(JSON.stringify(existing[c.key])) : {};
-      });
+        state.selections = {};
+        CATEGORIES.forEach(function(c){
+          state.selections[c.key] = existing[c.key] ? JSON.parse(JSON.stringify(existing[c.key])) : {};
+        });
 
-      renderCategories();
+        renderCategories();
 
-      var note = document.createElement('p');
-      note.textContent = 'Դուք արդեն ընտրություն կատարել եք։ Կարող եք փոփոխել այն ստորև։';
-      note.style.fontSize = '12.5px';
-      note.style.color = '#AD8A4C';
-      note.style.margin = '0.5rem 1.5rem 0';
-      countBlock.parentNode.insertBefore(note, countBlock.nextSibling);
-    }).catch(function(){});
+        var note = document.createElement('p');
+        note.textContent = 'Դուք արդեն ընտրություն կատարել եք։ Կարող եք փոփոխել այն ստորև։';
+        note.style.fontSize = '12.5px';
+        note.style.color = '#AD8A4C';
+        note.style.margin = '0.5rem 1.5rem 0';
+        countBlock.parentNode.insertBefore(note, countBlock.nextSibling);
+      }).catch(function(){});
+    });
   });
 
   guestCountInput.addEventListener('change', function(){
