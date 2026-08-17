@@ -56,10 +56,9 @@ Ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et rep
 
 Le menu Mezzo (Աղցաններ, Հիմնական ուտեստներ, Սթեյք, Պաստա և խավարտ) a été saisi à partir des photos de la vraie carte du restaurant.
 
-### Menu Lavash — partiellement vérifié
+### Menu Lavash — entièrement vérifié
 
-* **Ձկնային ուտեստներ (poissons)** : vérifié, saisi à partir de la vraie carte (9 plats avec prix confirmés).
-* **Նախուտեստներ, Հիմնական ուտեստներ, Խավարտներ** : toujours provisoires — basés sur des mentions dans des avis publics (dolma, khinkali, ghapama, côtes de porc au khorovats, harissa, arishta, légumes grillés), aucune carte structurée trouvée en ligne pour ces sections. Envoyez des photos de la carte (comme pour la section poissons ou pour Mezzo) pour les compléter avant d'envoyer le lien aux invités — ces catégories restent marquées « ցանկը դեռ նախնական է » sur la page tant que ce n'est pas fait.
+Les 7 catégories (Նախուտեստներ, Աղցաններ, Ապուրներ, Տաք ուտեստներ, Ձկնային ուտեստներ, Խորոված, Խավարտներ — 116 plats au total) ont été saisies à partir de la vraie carte du restaurant. Ce n'est plus une approximation.
 
 ### ⚠️ Les menus Malkhas Jazz Club et Livingston (s'ils sont réactivés un jour)
 
