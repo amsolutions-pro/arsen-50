@@ -12,13 +12,16 @@
  * sommable) dans le Sheet.
  */
 
-var HEADER_VERSION = 'v3-restaurants';
 var FIXED_COLUMNS = ['Ընտանիք', 'Հյուրերի թիվ', 'Ամսաթիվ'];
 var DATA_START_ROW = 3;
 
 // Doit rester identique (mêmes id/clés/plats) à RESTAURANTS dans index.html.
+// `version` ne change que quand les colonnes de CE restaurant changent
+// (plat ajouté/retiré/renommé) — c'est ce qui force la reconstruction (et
+// l'effacement) de son onglet uniquement, sans toucher aux autres.
 var RESTAURANTS = {
   livingston: {
+    version: 'v3-restaurants',
     sheetName: 'Responses – Livingston',
     categories: [
       {
@@ -59,6 +62,7 @@ var RESTAURANTS = {
     ]
   },
   malkhas: {
+    version: 'v3-restaurants',
     sheetName: 'Responses – Malkhas Jazz Club',
     categories: [
       {
@@ -82,25 +86,65 @@ var RESTAURANTS = {
     ]
   },
   mezzo: {
+    version: 'v5-mezzo-full-menu',
     sheetName: 'Responses – Mezzo',
     categories: [
       {
         key: 'salad',
-        title: 'ՍԱՌԸ ՆԱԽՈՒՏԵՍՏՆԵՐ',
+        title: 'ԱՂՑԱՆՆԵՐ',
         items: [
-          'Պանրերի սկուտեղ',
-          'Կեսարի աղցան',
-          'Սաղմոնով աղցան'
+          'Կեսար՝ հավի կրծքամիսով',
+          'Կեսար՝ ծովախեցգետնով',
+          'Կեսար՝ սաղմոնով',
+          'Հավով և սպանախով',
+          'Հունական',
+          'Պրովանսալ',
+          'Նիսուազ',
+          'Սաղմոնով աղցան',
+          'Տաք աղցան',
+          'Ծովախեցգետնով աղցան',
+          'Բանջարեղենի գրիլ-աղցան',
+          'Ուլունքային և սպանախով',
+          'Կապրեզե'
         ]
       },
       {
         key: 'main',
-        title: 'ՏԱՔ ՈՒՏԵՍՏՆԵՐ',
+        title: 'ՀԻՄՆԱԿԱՆ ՈՒՏԵՍՏՆԵՐ',
         items: [
-          'Գառան կողիկ',
-          'Տոմահոկ ստեյք',
-          'Սաղմոն ստեյք',
-          'Պղպեղով ստեյք'
+          'Ռոստբիֆ',
+          'Բիֆ Մեդալիոն',
+          'Փորկի',
+          'Հավ սերուցքային սոուսով',
+          'Հավի Կրեմպանե պեստո սոուսով'
+        ]
+      },
+      {
+        key: 'steak',
+        title: 'ՍԹԵՅՔ',
+        items: [
+          'Ֆիլե Մինյոն',
+          'Փեփր Սթեյք',
+          'Ռիբայ Բեֆ Անգուս',
+          'Ռիբայ',
+          'Տոմահոկ',
+          'Դատան կատե',
+          'Գրիլ ասորտի'
+        ]
+      },
+      {
+        key: 'side',
+        title: 'ՊԱՍՏԱ ԵՎ ԽԱՎԱՐՏ',
+        items: [
+          'Սպագետի Բոլոնեզ',
+          'Պեննե Կվատրո Ֆորմաջի',
+          'Տալիատելե Մարինարա',
+          'Կարբոնառա Ֆետուչինի',
+          'Տապակած սունկ',
+          'Կարտոֆիլ',
+          'Բանջարեղեն',
+          'Բրինձ',
+          'Ծնեբեկ'
         ]
       }
     ]
@@ -164,7 +208,7 @@ function getSheet_(restaurant) {
  * back up anything you want to keep before that happens.
  */
 function ensureHeaders_(sheet, restaurant) {
-  if (sheet.getRange(1, 1).getNote() === HEADER_VERSION) return;
+  if (sheet.getRange(1, 1).getNote() === restaurant.version) return;
 
   var dishColumns = getDishColumns_(restaurant);
   var totalCols = FIXED_COLUMNS.length + dishColumns.length;

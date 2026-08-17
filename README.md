@@ -43,18 +43,22 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* La page démarre par un choix de **restaurant** (actuellement Livingston, Malkhas Jazz Club et Mezzo), puisque ce n'est pas encore tranché. Chaque restaurant a son propre menu.
-* Une fois le restaurant choisi, chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant à ce restaurant.
+* Le choix du restaurant est désormais réglé sur **Mezzo** : Livingston et Malkhas Jazz Club sont toujours définis dans le code (avec leurs menus) mais désactivés (`enabled: false`), donc l'étape de choix de restaurant ne s'affiche plus — la page va directement au formulaire famille/menu de Mezzo. Voir « Restreindre à un seul restaurant » ci-dessous pour réactiver l'un des deux si besoin.
+* Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant au restaurant actif.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
 * Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
 
-### Restreindre à un seul restaurant plus tard
+### Réactiver le choix entre plusieurs restaurants
 
-Une fois le choix du restaurant tranché, ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et passez `enabled: false` sur ceux que vous retirez. L'étape de sélection disparaît automatiquement dès qu'il ne reste qu'un seul restaurant activé — le reste du site continue de fonctionner sans autre changement.
+Ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et repassez `enabled: true` sur Livingston et/ou Malkhas Jazz Club. Dès que plus d'un restaurant est activé, l'étape de sélection réapparaît automatiquement.
 
-### ⚠️ Les menus Malkhas Jazz Club et Mezzo sont provisoires
+### Menu Mezzo
 
-Je n'ai pas trouvé de carte détaillée en ligne pour ces deux restaurants — seulement des mentions générales issues d'avis publics (steaks, pâtes, côtelettes de porc, plateaux de fromages pour Malkhas ; cheese platter, saumon, tomahawk, agneau pour Mezzo). Les plats listés dans `RESTAURANTS` (sections `malkhas` et `mezzo`, dans `index.html` **et** dans `google-apps-script.gs`) sont donc une approximation à corriger avec le vrai menu de chaque restaurant avant d'envoyer le lien aux invités.
+Le menu Mezzo (Աղցաններ, Հիմնական ուտեստներ, Սթեյք, Պաստա և խավարտ) a été saisi à partir des photos de la vraie carte du restaurant — ce n'est plus une approximation.
+
+### ⚠️ Les menus Malkhas Jazz Club et Livingston (s'ils sont réactivés un jour)
+
+Le menu Livingston correspond au dîner déjà testé chez eux. Le menu Malkhas Jazz Club, lui, reste une approximation basée sur des avis publics (aucune carte détaillée trouvée en ligne) — à corriger avec leur vrai menu si vous le réactivez un jour.
 
 ## Mettre à jour le script plus tard (ex. après un changement de menu)
 
