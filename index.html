@@ -477,6 +477,11 @@ body { margin: 0; }
     countBlock.style.display = 'block';
     modalSlot.innerHTML = '';
 
+    // This note ("you already answered") belongs to whichever family was
+    // selected when it got added; it must never survive a family switch.
+    var existingNote = document.getElementById('existing-note');
+    if (existingNote) existingNote.remove();
+
     // Guest count + menu are hardcoded in this file already (FAMILY_DEFAULTS,
     // CATEGORIES) — no network round-trip needed to show them, so do it now,
     // synchronously, before anything else touches the network.
@@ -505,7 +510,13 @@ body { margin: 0; }
 
         renderCategories();
 
+        // Guard against a duplicate if this somehow resolves twice for the
+        // same family (e.g. a retried request).
+        var oldNote = document.getElementById('existing-note');
+        if (oldNote) oldNote.remove();
+
         var note = document.createElement('p');
+        note.id = 'existing-note';
         note.textContent = 'Դուք արդեն ընտրություն կատարել եք։ Կարող եք փոփոխել այն ստորև։';
         note.style.fontSize = '12.5px';
         note.style.color = '#AD8A4C';
