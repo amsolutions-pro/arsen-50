@@ -43,13 +43,23 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet `Responses` du Google Sheet.
-* Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses et affiche le récapitulatif.
-* L'onglet `Responses` est un vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable dans le Sheet.
+* La page démarre par un choix de **restaurant** (actuellement Livingston et Malkhas Jazz Club), puisque ce n'est pas encore tranché. Chaque restaurant a son propre menu.
+* Une fois le restaurant choisi, chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant à ce restaurant.
+* Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
+* Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
+
+### Restreindre à un seul restaurant plus tard
+
+Une fois le choix du restaurant tranché, ouvrez `index.html`, trouvez le tableau `RESTAURANTS` dans le `<script>`, et passez `enabled: false` sur celui que vous retirez. L'étape de sélection disparaît automatiquement dès qu'il ne reste qu'un seul restaurant activé — le reste du site continue de fonctionner sans autre changement.
+
+### ⚠️ Le menu Malkhas Jazz Club est provisoire
+
+Je n'ai pas trouvé de carte détaillée en ligne pour Malkhas Jazz Club (seulement des mentions générales : steaks, pâtes, côtelettes de porc, plateaux de fromages/olives/pain). Les plats listés dans `RESTAURANTS` (section `malkhas`, dans `index.html` **et** dans `google-apps-script.gs`) sont donc une approximation à corriger avec le vrai menu du restaurant avant d'envoyer le lien aux invités.
 
 ## Mettre à jour le script plus tard (ex. après un changement de menu)
 
 1. Ouvrez le projet Apps Script (Extensions → Apps Script depuis le Sheet).
 2. Remplacez tout le contenu par la nouvelle version de [`google-apps-script.gs`](./google-apps-script.gs).
 3. **Déployer → Gérer les déploiements** → cliquez sur le crayon ✏️ à côté du déploiement existant → Version : **Nouvelle version** → **Déployer**. Cela garde la même URL `.../exec`, donc pas besoin de retoucher `SCRIPT_URL` dans `index.html`.
-4. Si la structure des colonnes a changé (comme lors du retrait des desserts), le script reconstruit automatiquement l'en-tête et **efface le contenu existant** de l'onglet `Responses` dès le prochain appel (soumission ou consultation). Notez les réponses déjà reçues avant de mettre à jour si vous voulez les garder.
+4. Si la structure des colonnes d'un restaurant a changé (comme lors du retrait des desserts), le script reconstruit automatiquement l'en-tête de son onglet et **efface son contenu existant** dès le prochain appel (soumission ou consultation) pour ce restaurant. Notez les réponses déjà reçues avant de mettre à jour si vous voulez les garder.
+5. Si vous ajoutez/renommez/retirez un restaurant ou un plat, faites le changement **à la fois** dans `index.html` (tableau `RESTAURANTS`) et dans `google-apps-script.gs` (objet `RESTAURANTS`) — les deux doivent rester en miroir l'un de l'autre (mêmes `id`/clés/plats).

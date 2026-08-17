@@ -6,7 +6,7 @@
 <title>Դիմավորենք Արսենի 50-ամյակը</title>
 </head>
 <body>
-<!-- build: 2026-08-17-instant-guest-count -->
+<!-- build: 2026-08-17-restaurant-picker -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500&family=Noto+Sans+Armenian:wght@400;500;600&display=swap');
 
@@ -110,7 +110,19 @@ body { margin: 0; }
     </p>
   </div>
 
-  <div id="form-view">
+  <div id="restaurant-view">
+    <div style="padding: 0 1.5rem 1.5rem;">
+      <p style="font-size:13px; color:var(--muted); margin:0 0 1rem; line-height:1.6; text-align:center;">Ռեստորանի ընտրությունը դեռ վերջնական չէ։ Ընտրեք ստորև՝ տվյալ ռեստորանի ընտրացանկը տեսնելու համար։</p>
+      <div id="restaurant-options" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
+  </div>
+
+  <div id="form-view" style="display:none;">
+
+    <div id="restaurant-bar" style="display:none; align-items:center; justify-content:space-between; padding: 0 1.5rem 1rem; font-size:13px; color:var(--muted);">
+      <span>Ռեստորան՝ <strong id="restaurant-bar-name" style="color:var(--ink);"></strong></span>
+      <a href="#" id="restaurant-change" style="color:var(--wine); text-decoration:underline; cursor:pointer;">Փոխել</a>
+    </div>
 
     <div style="padding: 0 1.5rem 1.5rem;">
       <label style="font-size:12px; letter-spacing:0.05em; color:var(--muted); display:block; margin-bottom:0.5rem;">Ընտանիք</label>
@@ -187,57 +199,182 @@ body { margin: 0; }
 
   var FAMILY_DEFAULTS = { 'Սարգսյան': 5, 'Հակոբյան': 2, 'Ափուջանյան': 3, 'Մելիքսեթյան': 4 };
 
-  var CATEGORIES = [
+  // To restrict the event to a single restaurant later, just set the other
+  // one's `enabled` to false — the restaurant-picker step disappears on its
+  // own once only one option is left, no other code changes needed.
+  var RESTAURANTS = [
     {
-      key: 'salad',
-      title: 'Աղցաններ',
-      required: true,
-      items: [
-        { name: 'Ռոստբիֆ վարունգով և թայլանդական սոուսով', desc: 'բիֆ ստրիպլոյն, վարունգ, չերրի լոլիկ, համեմի տերևներ, թայլանդական սոուս' },
-        { name: 'Հավի կրծքամիս Լ’Օրանժ', desc: 'պաքսիմատացված հավի կրծքամիս, վարունգ, բոլոկի, մարինացված եգիպտացորեն, նռան հատիկներ, հոյսին սոուս' },
-        { name: 'Բիֆ օբերժին', desc: 'տապակած միս, սմբուկ, կախասունկ, խորոված պղպեղ, քաղցրաթթու սոուս, համեմ, քունջութ' },
-        { name: 'Բադի ֆիլե լոռամրգի սոուսով', desc: 'բադի ֆիլե, մարինացված տանձ, հազարի միքս, ռոքֆոր, լոռամրգի սոուս' }
+      id: 'livingston',
+      name: 'Livingston',
+      enabled: true,
+      categories: [
+        {
+          key: 'salad',
+          title: 'Աղցաններ',
+          required: true,
+          items: [
+            { name: 'Ռոստբիֆ վարունգով և թայլանդական սոուսով', desc: 'բիֆ ստրիպլոյն, վարունգ, չերրի լոլիկ, համեմի տերևներ, թայլանդական սոուս' },
+            { name: 'Հավի կրծքամիս Լ’Օրանժ', desc: 'պաքսիմատացված հավի կրծքամիս, վարունգ, բոլոկի, մարինացված եգիպտացորեն, նռան հատիկներ, հոյսին սոուս' },
+            { name: 'Բիֆ օբերժին', desc: 'տապակած միս, սմբուկ, կախասունկ, խորոված պղպեղ, քաղցրաթթու սոուս, համեմ, քունջութ' },
+            { name: 'Բադի ֆիլե լոռամրգի սոուսով', desc: 'բադի ֆիլե, մարինացված տանձ, հազարի միքս, ռոքֆոր, լոռամրգի սոուս' }
+          ]
+        },
+        {
+          key: 'main',
+          title: 'Տաք ուտեստներ',
+          required: true,
+          items: [
+            { name: 'Հավի ճուտ հաճարի ռիզոտտոյով', desc: 'հավի ճուտ, հաճարի ռիզոտտո, չերրի լոլիկ, պարմեզանի մուս, տրյուֆելի բուսայուղ' },
+            { name: 'Սիգ մուսլին էսպումայով', desc: 'Սևանի սիգ, սպանախով ռիզոտտո, մուսլին էսպումա, թարխունի պեստո' },
+            { name: 'Օձաձկով և ստրաչատելլայով', desc: 'օձաձուկ, ստրաչատելլա պանիր, վարունգ, գետնանուշ, ունագի սոուս' },
+            { name: 'Թունայով և ավոկադոյով', desc: 'թունա բլյուֆին, ավոկադո, չերրի լոլիկ, լորի ձու, ձիթապտուղ, բալզամիկ դրեսինգ' },
+            { name: 'Գառան թիակ պակ չոյով', desc: 'գառան թիակ, դեմիգլաս սոուս, կարտոֆիլի և ոլոռի խյուս, ծխեցված սխտորի կրեմ' },
+            { name: 'Ֆիլե մինյոն ֆրենչ գարդեն խյուսով', desc: 'բիֆ ֆիլե մինյոն, կախասունկ, ֆրենչ գարդեն խյուս, ռոզմարին, սխտորի կրեմ' },
+            { name: 'Իշխանի ֆիլե մուեր սնկով և քունջութի սոուսով', desc: 'իշխանի ֆիլե, սունկ մուեր, քունջութ, միցուկան, սոյայի սոուս' }
+          ]
+        },
+        {
+          key: 'side',
+          title: 'Խավարտներ',
+          required: true,
+          items: [
+            { name: 'Կանարյան կարտոֆիլ', desc: '' },
+            { name: 'Պոմ պյուրե', desc: '' },
+            { name: 'Գրիլ բանջարեղեն', desc: '' },
+            { name: 'Վայրի բրինձ', desc: '' },
+            { name: 'Հավի ճուտ', desc: '' },
+            { name: 'Խոզի չալաղաջ', desc: '' }
+          ]
+        }
       ]
     },
     {
-      key: 'main',
-      title: 'Տաք ուտեստներ',
-      required: true,
-      items: [
-        { name: 'Հավի ճուտ հաճարի ռիզոտտոյով', desc: 'հավի ճուտ, հաճարի ռիզոտտո, չերրի լոլիկ, պարմեզանի մուս, տրյուֆելի բուսայուղ' },
-        { name: 'Սիգ մուսլին էսպումայով', desc: 'Սևանի սիգ, սպանախով ռիզոտտո, մուսլին էսպումա, թարխունի պեստո' },
-        { name: 'Օձաձկով և ստրաչատելլայով', desc: 'օձաձուկ, ստրաչատելլա պանիր, վարունգ, գետնանուշ, ունագի սոուս' },
-        { name: 'Թունայով և ավոկադոյով', desc: 'թունա բլյուֆին, ավոկադո, չերրի լոլիկ, լորի ձու, ձիթապտուղ, բալզամիկ դրեսինգ' },
-        { name: 'Գառան թիակ պակ չոյով', desc: 'գառան թիակ, դեմիգլաս սոուս, կարտոֆիլի և ոլոռի խյուս, ծխեցված սխտորի կրեմ' },
-        { name: 'Ֆիլե մինյոն ֆրենչ գարդեն խյուսով', desc: 'բիֆ ֆիլե մինյոն, կախասունկ, ֆրենչ գարդեն խյուս, ռոզմարին, սխտորի կրեմ' },
-        { name: 'Իշխանի ֆիլե մուեր սնկով և քունջութի սոուսով', desc: 'իշխանի ֆիլե, սունկ մուեր, քունջութ, միցուկան, սոյայի սոուս' }
-      ]
-    },
-    {
-      key: 'side',
-      title: 'Խավարտներ',
-      required: true,
-      items: [
-        { name: 'Կանարյան կարտոֆիլ', desc: '' },
-        { name: 'Պոմ պյուրե', desc: '' },
-        { name: 'Գրիլ բանջարեղեն', desc: '' },
-        { name: 'Վայրի բրինձ', desc: '' },
-        { name: 'Հավի ճուտ', desc: '' },
-        { name: 'Խոզի չալաղաջ', desc: '' }
+      id: 'malkhas',
+      name: 'Malkhas Jazz Club',
+      enabled: true,
+      note: 'Ցանկը դեռ նախնական է (հրապարակային տեղեկությունից) — կճշգրտվի ռեստորանի իրական մենյուով։',
+      categories: [
+        {
+          key: 'salad',
+          title: 'Սառը նախուտեստներ',
+          required: true,
+          note: 'Ցանկը դեռ նախնական է — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
+          items: [
+            { name: 'Պանրերի սկուտեղ', desc: '' },
+            { name: 'Ձիթապտուղների սկուտեղ', desc: '' },
+            { name: 'Հացի զամբյուղ', desc: '' }
+          ]
+        },
+        {
+          key: 'main',
+          title: 'Տաք ուտեստներ',
+          required: true,
+          items: [
+            { name: 'Ստեյք', desc: '' },
+            { name: 'Փաստա', desc: '' },
+            { name: 'Խոզի կողիկ', desc: '' }
+          ]
+        }
       ]
     }
   ];
 
-  var state = { family: '', guestCount: 0, selections: {} };
-  CATEGORIES.forEach(function(c){ state.selections[c.key] = {}; });
+  var state = { restaurant: '', family: '', guestCount: 0, selections: {} };
 
   var lastCountValue = 0;
 
+  var restaurantViewEl = document.getElementById('restaurant-view');
+  var restaurantOptionsEl = document.getElementById('restaurant-options');
+  var restaurantBarEl = document.getElementById('restaurant-bar');
+  var formViewEl = document.getElementById('form-view');
   var familySelect = document.getElementById('family-select');
   var countBlock = document.getElementById('count-block');
   var guestCountInput = document.getElementById('guest-count');
   var categoriesEl = document.getElementById('categories');
   var modalSlot = document.getElementById('modal-slot');
+
+  function enabledRestaurants(){
+    return RESTAURANTS.filter(function(r){ return r.enabled; });
+  }
+
+  function currentRestaurant(){
+    var found = null;
+    RESTAURANTS.forEach(function(r){ if (r.id === state.restaurant) found = r; });
+    return found;
+  }
+
+  function currentCategories(){
+    var r = currentRestaurant();
+    return r ? r.categories : [];
+  }
+
+  function resetSelections(){
+    state.selections = {};
+    currentCategories().forEach(function(c){ state.selections[c.key] = {}; });
+  }
+
+  function renderRestaurantOptions(){
+    restaurantOptionsEl.innerHTML = '';
+    enabledRestaurants().forEach(function(r){
+      var card = document.createElement('button');
+      card.type = 'button';
+      card.style.textAlign = 'left';
+      card.style.padding = '16px';
+      card.style.border = '1px solid var(--gold-light)';
+      card.style.borderRadius = '6px';
+      card.style.background = '#FBF7EE';
+      card.style.cursor = 'pointer';
+      card.style.fontFamily = "'Noto Sans Armenian', sans-serif";
+
+      var name = document.createElement('div');
+      name.textContent = r.name;
+      name.style.fontFamily = "'Noto Sans Armenian', serif";
+      name.style.fontWeight = '600';
+      name.style.fontSize = '16px';
+      name.style.color = '#2B1E17';
+      card.appendChild(name);
+
+      if (r.note) {
+        var note = document.createElement('div');
+        note.textContent = r.note;
+        note.style.fontSize = '12px';
+        note.style.color = '#8A5A34';
+        note.style.marginTop = '4px';
+        note.style.lineHeight = '1.5';
+        card.appendChild(note);
+      }
+
+      card.addEventListener('click', function(){ selectRestaurant(r.id); });
+      restaurantOptionsEl.appendChild(card);
+    });
+  }
+
+  function updateRestaurantBar(){
+    var r = currentRestaurant();
+    if (!r || enabledRestaurants().length <= 1) {
+      restaurantBarEl.style.display = 'none';
+      return;
+    }
+    document.getElementById('restaurant-bar-name').textContent = r.name;
+    restaurantBarEl.style.display = 'flex';
+  }
+
+  function selectRestaurant(id){
+    state.restaurant = id;
+    state.family = '';
+    familySelect.value = '';
+    countBlock.style.display = 'none';
+    categoriesEl.innerHTML = '';
+    document.getElementById('family-error').style.display = 'none';
+    var existingNote = document.getElementById('existing-note');
+    if (existingNote) existingNote.remove();
+
+    restaurantViewEl.style.display = 'none';
+    formViewEl.style.display = 'block';
+    document.getElementById('thanks-view').style.display = 'none';
+    updateRestaurantBar();
+    window.scrollTo(0, 0);
+  }
 
   function catTotal(key){
     var sel = state.selections[key];
@@ -248,7 +385,7 @@ body { margin: 0; }
 
   function renderCategories(){
     categoriesEl.innerHTML = '';
-    CATEGORIES.forEach(function(cat){
+    currentCategories().forEach(function(cat){
       var section = document.createElement('div');
       section.style.padding = '0 1.5rem 2rem';
 
@@ -273,9 +410,9 @@ body { margin: 0; }
       headRow.appendChild(tag);
       section.appendChild(headRow);
 
-      if (!cat.required) {
+      if (cat.note) {
         var optNote = document.createElement('p');
-        optNote.textContent = 'Կամընտիր է — դեռ վերջնական չենք որոշել՝ ծննդյան տորթ կլինի, թե ոչ։';
+        optNote.textContent = cat.note;
         optNote.style.fontSize = '12.5px';
         optNote.style.color = '#8A5A34';
         optNote.style.margin = '-0.5rem 0 0.9rem';
@@ -392,7 +529,7 @@ body { margin: 0; }
   }
 
   function refreshAllTags(){
-    CATEGORIES.forEach(function(cat){
+    currentCategories().forEach(function(cat){
       var tag = document.getElementById('tag-' + cat.key);
       if (!tag) return;
       var t = catTotal(cat.key);
@@ -446,8 +583,7 @@ body { margin: 0; }
     state.guestCount = def;
     lastCountValue = def;
     guestCountInput.value = def;
-    state.selections = {};
-    CATEGORIES.forEach(function(c){ state.selections[c.key] = {}; });
+    resetSelections();
     renderCategories();
   }
 
@@ -471,7 +607,7 @@ body { margin: 0; }
     if (existingNote) existingNote.remove();
 
     // Guest count + menu are hardcoded in this file already (FAMILY_DEFAULTS,
-    // CATEGORIES) — no network round-trip needed to show them, so do it now,
+    // RESTAURANTS) — no network round-trip needed to show them, so do it now,
     // synchronously, before anything else touches the network.
     applyDefaults(fam);
 
@@ -479,9 +615,9 @@ body { margin: 0; }
     // we check in the background whether this family already answered. This
     // is a nice-to-have prefill, never a prerequisite for showing the form.
     requestAnimationFrame(function(){
-      apiGet({ action: 'get', family: fam }).then(function(res){
-        // The user may have already switched to a different family while
-        // this request was in flight; ignore a stale response.
+      apiGet({ action: 'get', family: fam, restaurant: state.restaurant }).then(function(res){
+        // The user may have already switched to a different family or
+        // restaurant while this request was in flight; ignore a stale response.
         if (state.family !== fam) return;
 
         var existing = (res && res.record) ? res.record : null;
@@ -492,7 +628,7 @@ body { margin: 0; }
         guestCountInput.value = state.guestCount;
 
         state.selections = {};
-        CATEGORIES.forEach(function(c){
+        currentCategories().forEach(function(c){
           state.selections[c.key] = existing[c.key] ? JSON.parse(JSON.stringify(existing[c.key])) : {};
         });
 
@@ -525,8 +661,7 @@ body { margin: 0; }
     lastCountValue = val;
     state.guestCount = val;
 
-    state.selections = {};
-    CATEGORIES.forEach(function(c){ state.selections[c.key] = {}; });
+    resetSelections();
 
     renderCategories();
   });
@@ -539,7 +674,7 @@ body { margin: 0; }
       valid = false;
     }
 
-    CATEGORIES.forEach(function(cat){
+    currentCategories().forEach(function(cat){
       if (cat.required && catTotal(cat.key) !== state.guestCount) {
         valid = false;
       }
@@ -555,13 +690,12 @@ body { margin: 0; }
     submitError.style.display = 'none';
 
     var record = {
+      restaurant: state.restaurant,
       family: state.family,
       guestCount: state.guestCount,
-      salad: state.selections.salad,
-      main: state.selections.main,
-      side: state.selections.side,
       ts: new Date().toISOString()
     };
+    currentCategories().forEach(function(cat){ record[cat.key] = state.selections[cat.key]; });
 
     apiPost(record).catch(function(){});
 
@@ -570,15 +704,15 @@ body { margin: 0; }
 
     var summary = document.getElementById('thanks-summary');
     summary.innerHTML = '';
-    var labels = { salad: 'Աղցաններ', main: 'Տաք ուտեստներ', side: 'Խավարտներ' };
-    ['salad','main','side'].forEach(function(key){
+    currentCategories().forEach(function(cat){
+      var key = cat.key;
       var sel = record[key];
       var keys = Object.keys(sel);
       if (keys.length === 0) return;
       var block = document.createElement('div');
       block.style.marginBottom = '0.6rem';
       var title = document.createElement('div');
-      title.textContent = labels[key];
+      title.textContent = cat.title;
       title.style.color = '#AD8A4C';
       title.style.fontFamily = "'Noto Sans Armenian', serif";
       title.style.fontWeight = '600';
@@ -601,6 +735,15 @@ body { margin: 0; }
     window.scrollTo(0, 0);
   });
 
+  document.getElementById('restaurant-change').addEventListener('click', function(e){
+    e.preventDefault();
+    formViewEl.style.display = 'none';
+    document.getElementById('thanks-view').style.display = 'none';
+    renderRestaurantOptions();
+    restaurantViewEl.style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
   document.getElementById('admin-toggle').addEventListener('click', function(e){
     e.preventDefault();
     var panel = document.getElementById('admin-view');
@@ -613,7 +756,7 @@ body { margin: 0; }
     var el = document.getElementById('admin-content');
     el.textContent = 'Բեռնվում է…';
 
-    apiGet({ action: 'list' }).then(function(res){
+    apiGet({ action: 'list', restaurant: state.restaurant }).then(function(res){
       var records = (res && res.records) || [];
       if (records.length === 0) {
         el.textContent = 'Առայժմ պատասխաններ չկան։';
@@ -621,6 +764,14 @@ body { margin: 0; }
       }
 
       el.innerHTML = '';
+
+      var restaurantTitle = document.createElement('p');
+      restaurantTitle.textContent = 'Ռեստորան՝ ' + ((currentRestaurant() || {}).name || '—');
+      restaurantTitle.style.fontFamily = "'Noto Sans Armenian', serif";
+      restaurantTitle.style.fontWeight = '600';
+      restaurantTitle.style.color = '#2B1E17';
+      restaurantTitle.style.marginBottom = '0.4rem';
+      el.appendChild(restaurantTitle);
 
       var totalPeople = records.reduce(function(s,r){ return s + (r.guestCount||0); }, 0);
       var countTitle = document.createElement('p');
@@ -638,9 +789,11 @@ body { margin: 0; }
       recapTitle.style.margin = '0 0 0.6rem';
       el.appendChild(recapTitle);
 
-      var labels = { salad: 'Աղցաններ', main: 'Տաք ուտեստներ', side: 'Խավարտներ' };
+      var labels = {};
+      currentCategories().forEach(function(cat){ labels[cat.key] = cat.title; });
+      var categoryKeys = currentCategories().map(function(cat){ return cat.key; });
 
-      ['salad','main','side'].forEach(function(key){
+      categoryKeys.forEach(function(key){
         var counts = {};
         records.forEach(function(r){
           var sel = r[key] || {};
@@ -702,7 +855,7 @@ body { margin: 0; }
         head.style.marginBottom = '4px';
         card.appendChild(head);
 
-        ['salad','main','side'].forEach(function(key){
+        categoryKeys.forEach(function(key){
           var sel = r[key] || {};
           var dishKeys = Object.keys(sel);
           if (dishKeys.length === 0) return;
@@ -720,6 +873,21 @@ body { margin: 0; }
     }).catch(function(){
       el.textContent = 'Հնարավոր չէ բեռնել պատասխանները։';
     });
+  }
+
+  // If only one restaurant is enabled, skip the picker entirely and go
+  // straight to the family form — this is what "restricting" the choice
+  // later (by disabling the other RESTAURANTS entry) automatically does.
+  var avail = enabledRestaurants();
+  if (avail.length <= 1) {
+    state.restaurant = avail.length ? avail[0].id : '';
+    restaurantViewEl.style.display = 'none';
+    formViewEl.style.display = 'block';
+    updateRestaurantBar();
+  } else {
+    renderRestaurantOptions();
+    restaurantViewEl.style.display = 'block';
+    formViewEl.style.display = 'none';
   }
 
 })();
