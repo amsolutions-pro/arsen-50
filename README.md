@@ -58,7 +58,9 @@ Le menu Mezzo (Աղցաններ, Հիմնական ուտեստներ, Սթեյք
 
 ### Menu Lavash — entièrement vérifié
 
-Les 7 catégories (Նախուտեստներ, Աղցաններ, Ապուրներ, Տաք ուտեստներ, Ձկնային ուտեստներ, Խորոված, Խավարտներ — 116 plats au total) ont été saisies à partir de la vraie carte du restaurant. Ce n'est plus une approximation.
+Saisi à partir de la vraie carte du restaurant, puis réorganisé en 3 catégories obligatoires (Աղցաններ, Հիմնական ուտեստներ, Խավարտներ — 89 plats au total) :
+* Les Նախուտեստներ et Ապուրներ (entrées, soupes) ont été retirées.
+* Տաք ուտեստներ, Ձկնային ուտեստներ et Խորոված ont été fusionnées en une seule catégorie **« Հիմնական ուտեստներ »** — les plats poisson et grillades y restent regroupés visuellement sous un sous-titre (« Ձկնային ուտեստներ », « Խորոված »), via le champ `group` sur chaque plat dans `RESTAURANTS`, pour que la liste ne soit pas un unique fourre-tout. Ce système `group` est réutilisable pour toute future fusion de catégories.
 
 ### ⚠️ Les menus Malkhas Jazz Club et Livingston (s'ils sont réactivés un jour)
 
