@@ -45,4 +45,11 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 * Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet `Responses` du Google Sheet.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses et affiche le récapitulatif.
-* Vous pouvez à tout moment ouvrir le Google Sheet pour voir les réponses brutes, ligne par ligne.
+* L'onglet `Responses` est un vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable dans le Sheet.
+
+## Mettre à jour le script plus tard (ex. après un changement de menu)
+
+1. Ouvrez le projet Apps Script (Extensions → Apps Script depuis le Sheet).
+2. Remplacez tout le contenu par la nouvelle version de [`google-apps-script.gs`](./google-apps-script.gs).
+3. **Déployer → Gérer les déploiements** → cliquez sur le crayon ✏️ à côté du déploiement existant → Version : **Nouvelle version** → **Déployer**. Cela garde la même URL `.../exec`, donc pas besoin de retoucher `SCRIPT_URL` dans `index.html`.
+4. Si la structure des colonnes a changé (comme lors du retrait des desserts), le script reconstruit automatiquement l'en-tête et **efface le contenu existant** de l'onglet `Responses` dès le prochain appel (soumission ou consultation). Notez les réponses déjà reçues avant de mettre à jour si vous voulez les garder.
