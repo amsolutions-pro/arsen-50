@@ -43,10 +43,14 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* Le choix du restaurant est désormais réglé sur **Lavash** : Livingston, Malkhas Jazz Club et Mezzo sont toujours définis dans le code (avec leurs menus) mais désactivés (`enabled: false`), donc l'étape de choix de restaurant ne s'affiche plus — la page va directement au formulaire famille/menu de Lavash.
+* Le choix du restaurant est désormais réglé sur **Kamancha** : Livingston, Malkhas Jazz Club, Mezzo et Lavash sont toujours définis dans le code (avec leurs menus) mais désactivés (`enabled: false`), donc l'étape de choix de restaurant ne s'affiche plus — la page va directement au formulaire famille/menu de Kamancha.
 * Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant au restaurant actif.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
-* Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`, `Responses – Lavash`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
+* Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`, `Responses – Lavash`, `Responses – Kamancha`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
+
+### Menu Kamancha — entièrement vérifié
+
+Saisi et traduit en arménien à partir du vrai PDF du menu (fourni par l'utilisateur), en 3 catégories (Աղցաններ, Հիմնական ուտեստներ, Խավարտներ — 84 plats au total). Les entrées/petit-déjeuner, soupes, desserts et boissons du PDF original n'ont pas été repris (hors périmètre demandé). Les 3 grands plateaux à partager (« assortiment de grillades grand/petit », « assortiment Kamancha ») et la truite/l'épaule d'agneau entières ont été volontairement exclus car pensés pour plusieurs personnes, incompatibles avec la logique « un plat par invité » du site.
 
 ### Réactiver le choix entre plusieurs restaurants
 
