@@ -43,20 +43,162 @@ body { margin: 0; }
 }
 
 .stepper-btn {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid var(--gold-light);
   background: #fff;
   color: var(--wine-deep);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .08s ease;
 }
+.stepper-btn:hover:not(:disabled) {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(232,145,43,0.14);
+}
+.stepper-btn:active:not(:disabled) { transform: scale(0.9); }
 .stepper-btn:disabled {
   opacity: 0.35;
   cursor: default;
 }
+
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  background: var(--surface);
+  border: 1px solid #E8DAB8;
+  border-radius: 10px;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.item-row:hover { border-color: var(--gold-light); box-shadow: 0 2px 10px rgba(46,27,18,.07); }
+.item-row.is-selected { border-color: var(--gold); background: #FCF2DD; box-shadow: 0 2px 12px rgba(232,145,43,.14); }
+
+.item-name { font-family: 'Noto Sans Armenian', serif; font-weight: 600; font-size: 15.5px; color: #2B1E17; }
+.item-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+.qty-badge { min-width: 20px; text-align: center; font-size: 15px; font-weight: 600; color: var(--wine-deep); }
+
+.cat-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid #E8DAB8;
+  padding-bottom: 0.6rem;
+  gap: 10px;
+}
+.cat-tag {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 4px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease;
+}
+.cat-tag.is-pending { color: #B8481E; background: #FBE7DA; }
+.cat-tag.is-complete { color: #3C5A34; background: #E4EFDD; }
+.cat-tag.is-optional { color: var(--muted); background: #F1E7D4; }
+
+.subgroup-label {
+  font-family: 'Noto Sans Armenian', serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--wine-deep);
+  margin: 16px 0 -1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.subgroup-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-light), transparent);
+}
+
+.restaurant-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid var(--gold-light);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: 'Noto Sans Armenian', sans-serif;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
+}
+.restaurant-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(46,27,18,.1); transform: translateY(-1px); }
+.restaurant-card:active { transform: translateY(0); }
+.restaurant-card-name { font-family: 'Noto Sans Armenian', serif; font-weight: 600; font-size: 16.5px; color: #2B1E17; }
+.restaurant-card-note { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+.submit-bar {
+  position: sticky;
+  bottom: 0;
+  padding: 1rem 1.5rem calc(0.9rem + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(248,230,192,0) 0%, #F8E6C0 26%);
+  margin-top: 0.25rem;
+}
+
+#submit-btn {
+  width: 100%;
+  height: 52px;
+  background: var(--wine);
+  color: #F5EEE0;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Noto Sans Armenian', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(30,47,69,.25);
+  transition: background .15s ease, transform .08s ease, box-shadow .15s ease;
+}
+#submit-btn:hover { background: #16283B; box-shadow: 0 6px 18px rgba(30,47,69,.3); }
+#submit-btn:active { transform: scale(0.985); }
+
+#family-select, #guest-count {
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+#family-select:focus, #guest-count:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(232,145,43,.15);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--wine);
+  border: 1px solid var(--wine);
+  border-radius: 8px;
+  font-family: 'Noto Sans Armenian', sans-serif;
+  cursor: pointer;
+  transition: background .15s ease, box-shadow .15s ease;
+}
+.btn-outline:hover { background: rgba(30,47,69,0.06); }
+
+.btn-solid-dark {
+  background: var(--wine-deep);
+  color: #F5EEE0;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Noto Sans Armenian', sans-serif;
+  cursor: pointer;
+  transition: background .15s ease, transform .08s ease;
+}
+.btn-solid-dark:hover { background: #1E2F45; }
+.btn-solid-dark:active { transform: scale(0.97); }
 </style>
 
 <div class="menu-app">
@@ -145,8 +287,8 @@ body { margin: 0; }
 
     <div id="categories"></div>
 
-    <div style="padding: 0.5rem 1.5rem 0;">
-      <button id="submit-btn" style="width:100%; height:50px; background:var(--wine); color:#F5EEE0; border:none; border-radius:4px; font-family:'Noto Sans Armenian',sans-serif; font-size:15px; letter-spacing:0.02em; cursor:pointer;">
+    <div class="submit-bar">
+      <button id="submit-btn">
         Հաստատել ընտրությունը
       </button>
       <p id="submit-error" style="display:none; font-size:13px; color:var(--danger); margin:0.7rem 0 0; text-align:center; line-height:1.6;">Յուրաքանչյուր բաժնում ընտրված քանակը պետք է հավասար լինի ներկաների թվին։</p>
@@ -158,7 +300,7 @@ body { margin: 0; }
     <h2 style="font-size:22px; margin-bottom:0.75rem;">Շնորհակալություն, <span id="thanks-family"></span> ընտանիք</h2>
     <p style="font-size:14px; color:var(--muted); line-height:1.7; max-width:420px; margin:0 auto;">Ձեր ընտրությունը ուղարկվեց կազմակերպչին։ Կսպասենք ձեզ երեկոյին։</p>
     <div id="thanks-summary" style="margin-top:1.75rem; text-align:left; max-width:400px; margin-left:auto; margin-right:auto; font-size:13.5px; line-height:1.8; color:var(--ink);"></div>
-    <button id="edit-btn" style="margin-top:1.75rem; height:44px; padding:0 22px; background:transparent; color:var(--wine); border:1px solid var(--wine); border-radius:4px; font-family:'Noto Sans Armenian',sans-serif; font-size:14px; cursor:pointer;">Փոփոխել իմ ընտրությունը</button>
+    <button id="edit-btn" class="btn-outline" style="margin-top:1.75rem; height:44px; padding:0 22px; font-size:14px;">Փոփոխել իմ ընտրությունը</button>
   </div>
 
   <div style="text-align:center; padding-top: 1rem;">
@@ -616,29 +758,17 @@ body { margin: 0; }
     enabledRestaurants().forEach(function(r){
       var card = document.createElement('button');
       card.type = 'button';
-      card.style.textAlign = 'left';
-      card.style.padding = '16px';
-      card.style.border = '1px solid var(--gold-light)';
-      card.style.borderRadius = '6px';
-      card.style.background = '#FBF7EE';
-      card.style.cursor = 'pointer';
-      card.style.fontFamily = "'Noto Sans Armenian', sans-serif";
+      card.className = 'restaurant-card';
 
       var name = document.createElement('div');
+      name.className = 'restaurant-card-name';
       name.textContent = r.name;
-      name.style.fontFamily = "'Noto Sans Armenian', serif";
-      name.style.fontWeight = '600';
-      name.style.fontSize = '16px';
-      name.style.color = '#2B1E17';
       card.appendChild(name);
 
       if (r.note) {
         var note = document.createElement('div');
+        note.className = 'restaurant-card-note';
         note.textContent = r.note;
-        note.style.fontSize = '12px';
-        note.style.color = '#8A5A34';
-        note.style.marginTop = '4px';
-        note.style.lineHeight = '1.5';
         card.appendChild(note);
       }
 
@@ -688,12 +818,7 @@ body { margin: 0; }
       section.style.padding = '0 1.5rem 2rem';
 
       var headRow = document.createElement('div');
-      headRow.style.display = 'flex';
-      headRow.style.alignItems = 'baseline';
-      headRow.style.justifyContent = 'space-between';
-      headRow.style.marginBottom = '0.9rem';
-      headRow.style.borderBottom = '1px solid #E8DAB8';
-      headRow.style.paddingBottom = '0.6rem';
+      headRow.className = 'cat-head';
 
       var h2 = document.createElement('h2');
       h2.textContent = cat.title;
@@ -701,8 +826,7 @@ body { margin: 0; }
 
       var tag = document.createElement('span');
       tag.id = 'tag-' + cat.key;
-      tag.style.fontSize = '12px';
-      tag.style.color = cat.required ? '#D9531E' : '#8A5A34';
+      tag.className = 'cat-tag';
 
       headRow.appendChild(h2);
       headRow.appendChild(tag);
@@ -730,44 +854,25 @@ body { margin: 0; }
       cat.items.forEach(function(item){
         if (item.group && item.group !== lastGroup) {
           var subHead = document.createElement('div');
+          subHead.className = 'subgroup-label';
           subHead.textContent = item.group;
-          subHead.style.fontFamily = "'Noto Sans Armenian', serif";
-          subHead.style.fontWeight = '600';
-          subHead.style.fontSize = '13.5px';
-          subHead.style.color = '#8A5A34';
-          subHead.style.margin = '6px 0 -2px';
-          subHead.style.paddingTop = '8px';
-          subHead.style.borderTop = '1px dashed #E8DAB8';
           grid.appendChild(subHead);
         }
         lastGroup = item.group;
 
         var row = document.createElement('div');
-        row.style.display = 'flex';
-        row.style.alignItems = 'center';
-        row.style.justifyContent = 'space-between';
-        row.style.gap = '12px';
-        row.style.padding = '12px 14px';
-        row.style.background = '#FBF7EE';
-        row.style.border = '1px solid #E8DAB8';
-        row.style.borderRadius = '4px';
+        row.className = 'item-row';
 
         var textWrap = document.createElement('div');
         var name = document.createElement('div');
+        name.className = 'item-name';
         name.textContent = item.name;
-        name.style.fontFamily = "'Noto Sans Armenian', serif";
-        name.style.fontWeight = '600';
-        name.style.fontSize = '15.5px';
-        name.style.color = '#2B1E17';
         textWrap.appendChild(name);
 
         if (item.desc) {
           var desc = document.createElement('div');
+          desc.className = 'item-desc';
           desc.textContent = item.desc;
-          desc.style.fontSize = '12px';
-          desc.style.color = '#8A5A34';
-          desc.style.lineHeight = '1.5';
-          desc.style.marginTop = '2px';
           textWrap.appendChild(desc);
         }
 
@@ -783,10 +888,8 @@ body { margin: 0; }
         minusBtn.textContent = '−';
 
         var qtySpan = document.createElement('span');
+        qtySpan.className = 'qty-badge';
         qtySpan.textContent = '0';
-        qtySpan.style.minWidth = '18px';
-        qtySpan.style.textAlign = 'center';
-        qtySpan.style.fontSize = '15px';
 
         var plusBtn = document.createElement('button');
         plusBtn.type = 'button';
@@ -798,6 +901,7 @@ body { margin: 0; }
           qtySpan.textContent = String(val);
           minusBtn.disabled = val <= 0;
           plusBtn.disabled = catTotal(cat.key) >= state.guestCount;
+          row.classList.toggle('is-selected', val > 0);
         }
 
         minusBtn.addEventListener('click', function(){
@@ -851,12 +955,13 @@ body { margin: 0; }
       if (!tag) return;
       var t = catTotal(cat.key);
       var need = state.guestCount;
+      tag.classList.remove('is-pending', 'is-complete', 'is-optional');
       if (cat.required) {
         tag.textContent = 'Ընտրված՝ ' + t + ' / ' + need;
-        tag.style.color = (t === need) ? '#4C6E42' : '#D9531E';
+        tag.classList.add(t === need ? 'is-complete' : 'is-pending');
       } else {
         tag.textContent = 'Ոչ պարտադիր · ' + t + ' / ' + need;
-        tag.style.color = '#8A5A34';
+        tag.classList.add('is-optional');
       }
     });
   }
@@ -866,8 +971,9 @@ body { margin: 0; }
     var overlay = document.createElement('div');
     overlay.style.background = '#FBF7EE';
     overlay.style.border = '1px solid #AD8A4C';
-    overlay.style.borderRadius = '6px';
+    overlay.style.borderRadius = '8px';
     overlay.style.padding = '1.1rem 1.2rem';
+    overlay.style.boxShadow = '0 4px 16px rgba(46,27,18,.08)';
 
     var msg = document.createElement('p');
     msg.textContent = 'Մենք անպայման ուզում ենք տեսնել ձեզ բոլորիդ միասին։ Խնդրում ենք գալ։';
@@ -878,14 +984,10 @@ body { margin: 0; }
     msg.style.lineHeight = '1.6';
 
     var btn = document.createElement('button');
+    btn.className = 'btn-solid-dark';
     btn.textContent = 'Հասկացա';
     btn.style.height = '38px';
     btn.style.padding = '0 18px';
-    btn.style.background = '#1E2F45';
-    btn.style.color = '#F5EEE0';
-    btn.style.border = 'none';
-    btn.style.borderRadius = '4px';
-    btn.style.cursor = 'pointer';
     btn.addEventListener('click', function(){
       modalSlot.innerHTML = '';
     });
