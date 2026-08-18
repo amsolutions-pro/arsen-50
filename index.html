@@ -292,6 +292,7 @@ body { margin: 0; }
         Հաստատել ընտրությունը
       </button>
       <p id="submit-error" style="display:none; font-size:13px; color:var(--danger); margin:0.7rem 0 0; text-align:center; line-height:1.6;">Յուրաքանչյուր բաժնում ընտրված քանակը պետք է հավասար լինի ներկաների թվին։</p>
+      <p id="network-error" style="display:none; font-size:13px; color:var(--danger); margin:0.7rem 0 0; text-align:center; line-height:1.6;">Չհաջողվեց ուղարկել ձեր ընտրությունը։ Ստուգեք ինտերնետ կապը և փորձեք կրկին։</p>
     </div>
 
   </div>
@@ -1102,6 +1103,8 @@ body { margin: 0; }
     refreshAllTags();
 
     var submitError = document.getElementById('submit-error');
+    var networkError = document.getElementById('network-error');
+    networkError.style.display = 'none';
     if (!valid) {
       submitError.style.display = 'block';
       return;
@@ -1116,35 +1119,48 @@ body { margin: 0; }
     };
     currentCategories().forEach(function(cat){ record[cat.key] = state.selections[cat.key]; });
 
-    apiPost(record).catch(function(){});
+    var submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Ուղարկվում է…';
 
-    document.getElementById('form-view').style.display = 'none';
-    document.getElementById('thanks-family').textContent = state.family;
+    apiPost(record).then(function(res){
+      if (!res || res.ok !== true) {
+        throw new Error((res && res.error) || 'unknown error');
+      }
 
-    var summary = document.getElementById('thanks-summary');
-    summary.innerHTML = '';
-    currentCategories().forEach(function(cat){
-      var key = cat.key;
-      var sel = record[key];
-      var keys = Object.keys(sel);
-      if (keys.length === 0) return;
-      var block = document.createElement('div');
-      block.style.marginBottom = '0.6rem';
-      var title = document.createElement('div');
-      title.textContent = cat.title;
-      title.style.color = '#AD8A4C';
-      title.style.fontFamily = "'Noto Sans Armenian', serif";
-      title.style.fontWeight = '600';
-      block.appendChild(title);
-      keys.forEach(function(k){
-        var r = document.createElement('div');
-        r.textContent = k + ' — ' + sel[k];
-        block.appendChild(r);
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('thanks-family').textContent = state.family;
+
+      var summary = document.getElementById('thanks-summary');
+      summary.innerHTML = '';
+      currentCategories().forEach(function(cat){
+        var key = cat.key;
+        var sel = record[key];
+        var keys = Object.keys(sel);
+        if (keys.length === 0) return;
+        var block = document.createElement('div');
+        block.style.marginBottom = '0.6rem';
+        var title = document.createElement('div');
+        title.textContent = cat.title;
+        title.style.color = '#AD8A4C';
+        title.style.fontFamily = "'Noto Sans Armenian', serif";
+        title.style.fontWeight = '600';
+        block.appendChild(title);
+        keys.forEach(function(k){
+          var r = document.createElement('div');
+          r.textContent = k + ' — ' + sel[k];
+          block.appendChild(r);
+        });
+        summary.appendChild(block);
       });
-      summary.appendChild(block);
-    });
 
-    document.getElementById('thanks-view').style.display = 'block';
+      document.getElementById('thanks-view').style.display = 'block';
+    }).catch(function(){
+      networkError.style.display = 'block';
+    }).then(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Հաստատել ընտրությունը';
+    });
   });
 
   document.getElementById('edit-btn').addEventListener('click', function(){
