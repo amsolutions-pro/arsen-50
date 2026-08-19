@@ -519,7 +519,7 @@ function ensureHeaders_(sheet, restaurant) {
   sheet.setFrozenColumns(FIXED_COLUMNS.length);
   sheet.setColumnWidths(FIXED_COLUMNS.length + 1, dishColumns.length, 90);
 
-  sheet.getRange(1, 1).setNote(HEADER_VERSION);
+  sheet.getRange(1, 1).setNote(restaurant.version);
 }
 
 function findRowIndex_(sheet, family) {
