@@ -369,6 +369,39 @@ var RESTAURANTS = {
         ]
       }
     ]
+  },
+  margot: {
+    version: 'v1-margot-placeholder',
+    sheetName: 'Responses – House of Margot',
+    categories: [
+      {
+        key: 'salad',
+        title: 'ՆԱԽՈՒՏԵՍՏՆԵՐ',
+        items: [
+          'Կեսար աղցան',
+          'Բուրատա',
+          'Տարտար'
+        ]
+      },
+      {
+        key: 'main',
+        title: 'ՀԻՄՆԱԿԱՆ ՈՒՏԵՍՏ',
+        items: [
+          'Ստեյք',
+          'Սաղմոն',
+          'Փաստա'
+        ]
+      },
+      {
+        key: 'side',
+        title: 'ԽԱՎԱՐՏ',
+        items: [
+          'Կարտոֆիլ ֆրի',
+          'Բանջարեղեն',
+          'Բրինձ'
+        ]
+      }
+    ]
   }
 };
 

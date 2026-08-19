@@ -43,7 +43,7 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* Deux restaurants sont actuellement actifs (`enabled: true`) : **Lavash** et **Kamancha** — l'étape de choix de restaurant s'affiche donc automatiquement. Livingston, Malkhas Jazz Club et Mezzo restent définis dans le code (avec leurs menus) mais désactivés (`enabled: false`).
+* Deux restaurants sont actuellement actifs (`enabled: true`) : **Lavash** et **Kamancha** — l'étape de choix de restaurant s'affiche donc automatiquement. Livingston, Malkhas Jazz Club, Mezzo et House of Margot restent définis dans le code (avec leurs menus) mais désactivés (`enabled: false`).
 * Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant au restaurant actif.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
 * Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`, `Responses – Lavash`, `Responses – Kamancha`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
@@ -65,6 +65,10 @@ Le menu Mezzo (Աղցաններ, Հիմնական ուտեստներ, Սթեյք
 Saisi à partir de la vraie carte du restaurant, puis réorganisé en 3 catégories obligatoires (Աղցաններ, Հիմնական ուտեստներ, Խավարտներ — 89 plats au total) :
 * Les Նախուտեստներ et Ապուրներ (entrées, soupes) ont été retirées.
 * Տաք ուտեստներ, Ձկնային ուտեստներ et Խորոված ont été fusionnées en une seule catégorie **« Հիմնական ուտեստներ »** — les plats poisson et grillades y restent regroupés visuellement sous un sous-titre (« Ձկնային ուտեստներ », « Խորոված »), via le champ `group` sur chaque plat dans `RESTAURANTS`, pour que la liste ne soit pas un unique fourre-tout. Ce système `group` est réutilisable pour toute future fusion de catégories.
+
+### ⚠️ Le menu House of Margot (à corriger avant activation)
+
+Le site officiel (`margot.house/hy/menu/`) est bloqué depuis cet environnement (comme tous les autres sites externes tentés dans ce projet), donc le menu actuel (Նախուտեստներ / Հիմնական ուտեստ / Խավարտ) n'est qu'un **placeholder générique**, clairement marqué comme provisoire. À remplacer par le vrai menu (texte collé ou captures d'écran) avant de passer `enabled: true`.
 
 ### ⚠️ Les menus Malkhas Jazz Club et Livingston (s'ils sont réactivés un jour)
 
