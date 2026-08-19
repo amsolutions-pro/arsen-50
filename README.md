@@ -43,6 +43,7 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
+* Le design (en-tête façon rideau de théâtre bordeaux/or avec franges, palette bordeaux/or avec une touche bleu ciel/rose poudré, photos de famille floutées en fond très léger) est inspiré de deux photos fournies par l'utilisateur. Les photos sont fortement floutées avant d'être intégrées (aucun visage reconnaissable) et encodées directement en base64 dans `index.html` — les fichiers originaux n'ont jamais été conservés dans le repo.
 * Trois restaurants sont actuellement actifs (`enabled: true`) : **Lavash**, **Kamancha** et **House of Margot** — l'étape de choix de restaurant s'affiche donc automatiquement. Livingston, Malkhas Jazz Club et Mezzo restent définis dans le code (avec leurs menus) mais désactivés (`enabled: false`).
 * Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant au restaurant actif.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
