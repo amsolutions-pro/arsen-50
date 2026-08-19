@@ -216,7 +216,8 @@ body { margin: 0; }
   margin: 0.6rem auto 0;
 }
 .hero-sparkle { position: absolute; z-index: 1; }
-.scallop-row { display: flex; position: relative; z-index: 2; margin: 0 -1.5rem; }
+.hero-valance { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; }
+.scallop-row { display: flex; }
 .scallop {
   flex: 1;
   height: 26px;
@@ -227,7 +228,7 @@ body { margin: 0; }
   margin-right: -2px;
   box-shadow: inset 0 -4px 8px rgba(0,0,0,.3);
 }
-.tassel-row { display: flex; position: relative; z-index: 1; margin: -1px -1.5rem 0; }
+.tassel-row { display: flex; margin-top: -1px; }
 .tassel { flex: 1; display: flex; justify-content: center; }
 .tassel-thread { width: 1.5px; height: 11px; background: linear-gradient(180deg, var(--gold), var(--gold-light)); }
 .tassel-bead { width: 5px; height: 5px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FBE2AE, var(--gold) 70%); margin-top: -1px; box-shadow: 0 1px 2px rgba(0,0,0,.35); }
@@ -341,20 +342,22 @@ body { margin: 0; }
       <p style="font-size:13.5px; color:#E3C9A8; margin:0; letter-spacing:0.02em; text-shadow:0 1px 6px rgba(0,0,0,.55);">50 տարվա կյանք, ուրախություն ու սեր</p>
     </div>
 
-    <div class="scallop-row">
-      <div class="scallop"></div><div class="scallop"></div><div class="scallop"></div><div class="scallop"></div>
-      <div class="scallop"></div><div class="scallop"></div><div class="scallop"></div><div class="scallop"></div><div class="scallop"></div>
-    </div>
-    <div class="tassel-row">
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
-      <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+    <div class="hero-valance">
+      <div class="scallop-row">
+        <div class="scallop"></div><div class="scallop"></div><div class="scallop"></div><div class="scallop"></div>
+        <div class="scallop"></div><div class="scallop"></div><div class="scallop"></div><div class="scallop"></div><div class="scallop"></div>
+      </div>
+      <div class="tassel-row">
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+        <div class="tassel"><div class="tassel-thread"></div><div class="tassel-bead"></div></div>
+      </div>
     </div>
   </div>
 
