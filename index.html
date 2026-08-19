@@ -274,6 +274,7 @@ body { margin: 0; }
         <option value="Հակոբյան">Հակոբյան</option>
         <option value="Ափուջանյան">Ափուջանյան</option>
         <option value="Մելիքսեթյան">Մելիքսեթյան</option>
+        <option value="Նիկողոսյան">Նիկողոսյան</option>
       </select>
       <p id="family-error" style="display:none; font-size:12px; color:var(--danger); margin:0.4rem 0 0;">Խնդրում ենք ընտրել ընտանիքը։</p>
     </div>
@@ -340,7 +341,7 @@ body { margin: 0; }
     }).then(function(res){ return res.json(); });
   }
 
-  var FAMILY_DEFAULTS = { 'Սարգսյան': 5, 'Հակոբյան': 2, 'Ափուջանյան': 3, 'Մելիքսեթյան': 4 };
+  var FAMILY_DEFAULTS = { 'Սարգսյան': 5, 'Հակոբյան': 2, 'Ափուջանյան': 3, 'Մելիքսեթյան': 4, 'Նիկողոսյան': 1 };
 
   // To restrict the event to a single restaurant later, just set the other
   // one's `enabled` to false — the restaurant-picker step disappears on its
@@ -721,38 +722,60 @@ body { margin: 0; }
     {
       id: 'margot',
       name: 'House of Margot',
-      enabled: false,
-      note: 'Ցանկը դեռ նախնական է — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
+      enabled: true,
       categories: [
         {
           key: 'salad',
-          title: 'Նախուտեստներ',
+          title: 'Աղցաններ',
           required: true,
-          note: 'Ցանկը դեռ նախնական է — կփոխարինվի ռեստորանի իրական մենյուով, հենց հաստատվի։',
           items: [
-            { name: 'Կեսար աղցան', desc: '' },
-            { name: 'Բուրատա', desc: '' },
-            { name: 'Տարտար', desc: '' }
+            { name: 'Լոլիկով և թարխունով', desc: 'Լոլիկ, թարխուն, թթվասեր, ֆետայով սերուցքային մուս' },
+            { name: 'Կեսար՝ շնիցելով', desc: 'Խմորով տապակած հավի շնիցել, այսբերգ կաղամբ, Կեսար սոուս, չերի լոլիկ, պարմեզան' },
+            { name: 'Թեթև և կանաչ', desc: 'Պակ չոյ կաղամբ, վարունգ, կանաչ ֆրանսիական խնձոր, ավոկադո, քինոա, լայմով և սպանախով սոուս, բոլոկի, պիստակ' },
+            { name: 'Սմբուկով', desc: 'Ֆետա, սմբուկ, չերի լոլիկ, քաղցր չիլի սոուս, բալզամիկ կրեմ' },
+            { name: 'Մանրածովախեցգետնով և ավոկադոյով', desc: 'Խառը կանաչի, վինեգրետ սոուս, մանրածովախեցգետին, ավոկադո, ձիթապտղի յուղ' },
+            { name: 'Նրա սիրելի աղցանը', desc: 'Գրիլ արված հորթի ֆիլե, խառը կանաչի, բուլղարական պղպեղ, սմբուկ, մանանեխային սոուս, պարմեզան' }
           ]
         },
         {
           key: 'main',
-          title: 'Հիմնական ուտեստ',
+          title: 'Հիմնական ուտեստներ',
           required: true,
           items: [
-            { name: 'Ստեյք', desc: '' },
-            { name: 'Սաղմոն', desc: '' },
-            { name: 'Փաստա', desc: '' }
+            { name: 'Վայրի սնկով լազանյա', desc: 'Dough, two types of mushrooms, onion porey, chicken broth, cream, tarragon, garlic', group: 'Armenian Pasta' },
+            { name: 'Բիֆ և չորիզո ռագու սպագետի', desc: 'Homemade spaghetti, bolognese made with red wine, beef and chorizo sausage filling, sauce with celery, carrots and garlic', group: 'Armenian Pasta' },
+            { name: 'Կծու անչոուսով տալիատելե', desc: 'Homemade tagliatelle, anchovies, garlic, capers, kalamata, tabasco, chili flakes, napoletana sauce, parsley, basil', group: 'Armenian Pasta' },
+            { name: 'Սպագետի կարբոնարա', desc: 'Homemade spaghett, bacon, cream, garlic, parsley, yolk', group: 'Armenian Pasta' },
+            { name: 'Ծովամթերքով տալիատելե', desc: 'Homemade tagliatelle, shrimp, mussels, salmon, squid, cream, white wine, garlic', group: 'Armenian Pasta' },
+            { name: 'Թաթար բորակի', desc: 'Մածուն սխտորով, սպանախ, կարագ, սոխի չիպսեր', group: 'Armenian Pasta' },
+            { name: 'Քուֆթա արիշտայով', desc: 'Տավարի փափկամիս, կարամելիզացված սոխ, արիշտա՝ կարագով, սոխով, սնկով և սպանախով', group: 'Armenian Pasta' },
+            { name: 'Տոլմա Մարգոյից', desc: 'Մատուցվում է սխտորով մածունով', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Հավի կրծքամիս ծնեբեկով', desc: 'Հավի կրծքամիս, ծնեբեկ, սնկով սերուցքային սոուս', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Ծաղկակաղամբի սթեյք', desc: 'Մատուցվում է բանջարեղենային էսպումայով', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Իշխանի ֆիլե սպանախով', desc: 'Իշխանի ֆիլե, սպանախ մշկընկույզով, սերուցք (մատուցվում է համեմված կարագով և կիտրոնով)', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Ճուտ Մարսել', desc: 'Մարսելյան սոուսով պատրաստված ճուտ (մատուցվում է տապակած պակ չոյ կաղամբով)', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Հայկական խոզի չալաղաջ', desc: 'Մատուցվում է կարտոֆիլի ճմուռով', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Ֆիլե մինյոն', desc: 'Տավարի թենդերլոին (240գր)', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Սթեյք ֆրի', desc: 'Տավարի փափկամիս, Մարգոյի տապակած կարտոֆիլ, պղպեղի սոուս', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Բադի կրծքամիս', desc: 'Բադի ֆիլե (մատուցվում է հապալասի սոուսով և տանձով)', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Սաղմոնի սթեյք սև բրնձով', desc: 'Մատուցվում է նարնջի սոուսով և համեմված կարագով', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Ռիբայ սթեյք', desc: 'Ռիբայ (300գր)', group: 'Գլխավոր իրադարձություն' },
+            { name: 'Մարգոյի սեթ', desc: 'Տավարի ֆիլե (500գր), խոզի ֆիլե (500գր), հավի ֆիլե (500գր), համեմված կարտոֆիլ ֆրի, կծու ծիծակ, չիմիչուրի, սալսա, քամած մածուն, գրիլ արված եգիպտացորեն', group: 'Bring Everyone' },
+            { name: 'Գյուղական սեթ', desc: '', group: 'Bring Everyone' },
+            { name: 'Բիֆ Վելինգտոն', desc: 'Տավարի փափկամիս (800գր), պրոշուտո, վայրի սնկեր, ոսկեգույն շերտախմոր, դեմիգլաս սոուս', group: 'Bring Everyone' }
           ]
         },
         {
           key: 'side',
-          title: 'Խավարտ',
+          title: 'Խավարտներ',
           required: true,
           items: [
-            { name: 'Կարտոֆիլ ֆրի', desc: '' },
-            { name: 'Բանջարեղեն', desc: '' },
-            { name: 'Բրինձ', desc: '' }
+            { name: 'Կարտոֆիլի խյուս', desc: 'Կարտոֆիլ, կարագ, սերուցք' },
+            { name: 'Գրիլ արված բանջարեղեն', desc: 'Սմբուկ, դդմիկ, բուլղարական պղպեղ, սունկ, բրոկկոլի, չերի լոլիկ, գազար' },
+            { name: 'Կարտոֆիլի ճմուռ', desc: 'Մատղաշ կարտոֆիլ, համեմունքներ, կարագ, հայկական պանիր' },
+            { name: 'Բրինձ', desc: 'Սպիտակ / Սև' },
+            { name: 'Գրիլ արված ծնեբեկ', desc: 'Ծնեբեկ, սխտոր, չերի լոլիկ, կիտրոն' },
+            { name: 'Տեղում պատրաստված սոուսներ', desc: 'Սնկային / Չիմիչուրի / Պղպեղով / ԲԲՔ / Margot\'s freshness' }
           ]
         }
       ]
