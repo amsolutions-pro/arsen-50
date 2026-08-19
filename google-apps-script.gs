@@ -6,14 +6,16 @@
  * Voir README.md pour les instructions pas à pas.
  *
  * Chaque restaurant a son propre onglet ("Responses – <nom>"), en tableau :
- * une ligne par famille, une colonne par plat (la quantité choisie),
- * regroupées par catégorie sous deux lignes d'en-tête. Aucune donnée JSON
+ * une colonne par famille, une ligne par plat (la quantité choisie),
+ * regroupées par catégorie sous deux colonnes d'en-tête. Aucune donnée JSON
  * brute n'est stockée dans les cellules — tout est directement lisible (et
- * sommable) dans le Sheet.
+ * sommable) dans le Sheet. Il y a généralement bien plus de plats que de
+ * familles, d'où ce sens (familles en colonnes, plats en lignes) plutôt que
+ * l'inverse.
  */
 
-var FIXED_COLUMNS = ['Ընտանիք', 'Հյուրերի թիվ', 'Ամսաթիվ'];
-var DATA_START_ROW = 3;
+var FIXED_ROWS = ['Ընտանիք', 'Հյուրերի թիվ', 'Ամսաթիվ'];
+var DATA_START_COL = 3;
 
 // Doit rester identique (mêmes id/clés/plats) à RESTAURANTS dans index.html.
 // `version` ne change que quand les colonnes de CE restaurant changent
@@ -21,7 +23,7 @@ var DATA_START_ROW = 3;
 // l'effacement) de son onglet uniquement, sans toucher aux autres.
 var RESTAURANTS = {
   livingston: {
-    version: 'v3-restaurants',
+    version: 'v4-restaurants-transposed',
     sheetName: 'Responses – Livingston',
     categories: [
       {
@@ -62,7 +64,7 @@ var RESTAURANTS = {
     ]
   },
   malkhas: {
-    version: 'v3-restaurants',
+    version: 'v4-restaurants-transposed',
     sheetName: 'Responses – Malkhas Jazz Club',
     categories: [
       {
@@ -86,7 +88,7 @@ var RESTAURANTS = {
     ]
   },
   mezzo: {
-    version: 'v5-mezzo-full-menu',
+    version: 'v6-mezzo-transposed',
     sheetName: 'Responses – Mezzo',
     categories: [
       {
@@ -150,7 +152,7 @@ var RESTAURANTS = {
     ]
   },
   lavash: {
-    version: 'v4-lavash-3-categories',
+    version: 'v5-lavash-transposed',
     sheetName: 'Responses – Lavash',
     categories: [
       {
@@ -263,7 +265,7 @@ var RESTAURANTS = {
     ]
   },
   kamancha: {
-    version: 'v2-kamancha-verified',
+    version: 'v3-kamancha-transposed',
     sheetName: 'Responses – Kamancha',
     categories: [
       {
@@ -371,7 +373,7 @@ var RESTAURANTS = {
     ]
   },
   margot: {
-    version: 'v2-margot-real-menu',
+    version: 'v3-margot-transposed',
     sheetName: 'Responses – House of Margot',
     categories: [
       {
@@ -460,14 +462,14 @@ function getRestaurant_(id) {
   return RESTAURANTS.hasOwnProperty(id) ? RESTAURANTS[id] : null;
 }
 
-function getDishColumns_(restaurant) {
-  var cols = [];
+function getDishRows_(restaurant) {
+  var rows = [];
   restaurant.categories.forEach(function (cat) {
     cat.items.forEach(function (name) {
-      cols.push({ category: cat.key, name: name });
+      rows.push({ category: cat.key, name: name });
     });
   });
-  return cols;
+  return rows;
 }
 
 function getSheet_(restaurant) {
@@ -479,69 +481,72 @@ function getSheet_(restaurant) {
 }
 
 /**
- * (Re)builds the two-row header (category title + dish name per column) the
+ * (Re)builds the two-column header (category title + dish name per row) the
  * first time it sees a sheet that doesn't already carry this exact layout.
- * This also runs automatically the first time the updated script is used
- * against an older sheet — which clears out whatever was there before, so
- * back up anything you want to keep before that happens.
+ * Families run across columns (there are usually far more dishes than
+ * families, so this reads more naturally than the reverse). This also runs
+ * automatically the first time the updated script is used against an older
+ * sheet — which clears out whatever was there before, so back up anything
+ * you want to keep before that happens.
  */
 function ensureHeaders_(sheet, restaurant) {
   if (sheet.getRange(1, 1).getNote() === restaurant.version) return;
 
-  var dishColumns = getDishColumns_(restaurant);
-  var totalCols = FIXED_COLUMNS.length + dishColumns.length;
+  var dishRows = getDishRows_(restaurant);
+  var totalRows = FIXED_ROWS.length + dishRows.length;
 
   sheet.clear();
 
-  var row2 = FIXED_COLUMNS.map(function () { return ''; })
-    .concat(dishColumns.map(function (d) { return d.name; }));
-  sheet.getRange(2, 1, 1, totalCols).setValues([row2]);
+  var col2 = FIXED_ROWS.map(function () { return ['']; })
+    .concat(dishRows.map(function (d) { return [d.name]; }));
+  sheet.getRange(1, 2, totalRows, 1).setValues(col2);
 
-  var col = FIXED_COLUMNS.length + 1;
+  var row = FIXED_ROWS.length + 1;
   restaurant.categories.forEach(function (cat) {
     var span = cat.items.length;
-    sheet.getRange(1, col, 1, span).merge().setValue(cat.title);
-    col += span;
+    sheet.getRange(row, 1, span, 1).merge().setValue(cat.title);
+    row += span;
   });
 
-  FIXED_COLUMNS.forEach(function (label, i) {
-    sheet.getRange(1, i + 1, 2, 1).merge().setValue(label);
+  FIXED_ROWS.forEach(function (label, i) {
+    sheet.getRange(i + 1, 1, 1, 2).merge().setValue(label);
   });
 
-  sheet.getRange(1, 1, 2, totalCols)
+  sheet.getRange(1, 1, totalRows, 2)
     .setFontWeight('bold')
     .setHorizontalAlignment('center')
     .setVerticalAlignment('middle')
     .setWrap(true)
     .setBackground('#F3EEE3');
 
-  sheet.setFrozenRows(2);
-  sheet.setFrozenColumns(FIXED_COLUMNS.length);
-  sheet.setColumnWidths(FIXED_COLUMNS.length + 1, dishColumns.length, 90);
+  sheet.setFrozenRows(FIXED_ROWS.length);
+  sheet.setFrozenColumns(2);
+  sheet.setColumnWidth(1, 130);
+  sheet.setColumnWidth(2, 240);
 
   sheet.getRange(1, 1).setNote(restaurant.version);
 }
 
-function findRowIndex_(sheet, family) {
-  var lastRow = sheet.getLastRow();
-  if (lastRow < DATA_START_ROW) return -1;
+function findColIndex_(sheet, family) {
+  var lastCol = sheet.getLastColumn();
+  if (lastCol < DATA_START_COL) return -1;
 
-  var families = sheet.getRange(DATA_START_ROW, 1, lastRow - DATA_START_ROW + 1, 1).getValues();
+  var families = sheet.getRange(1, DATA_START_COL, 1, lastCol - DATA_START_COL + 1).getValues()[0];
   for (var i = 0; i < families.length; i++) {
-    if (families[i][0] === family) return DATA_START_ROW + i;
+    if (families[i] === family) return DATA_START_COL + i;
   }
   return -1;
 }
 
-function rowToRecord_(sheet, rowIndex, restaurant, dishColumns) {
-  var totalCols = FIXED_COLUMNS.length + dishColumns.length;
-  var values = sheet.getRange(rowIndex, 1, 1, totalCols).getValues()[0];
+function colToRecord_(sheet, colIndex, restaurant, dishRows) {
+  var totalRows = FIXED_ROWS.length + dishRows.length;
+  var values = sheet.getRange(1, colIndex, totalRows, 1).getValues();
 
-  var record = { family: values[0], guestCount: values[1], ts: values[2] };
+  var record = { family: values[0][0], guestCount: values[1][0], ts: values[2][0] };
   restaurant.categories.forEach(function (cat) { record[cat.key] = {}; });
 
-  dishColumns.forEach(function (d, i) {
-    var qty = values[FIXED_COLUMNS.length + i];
+  dishRows.forEach(function (d, i) {
+    var qty = values[FIXED_ROWS.length + i][0];
     if (qty) record[d.category][d.name] = qty;
   });
 
@@ -549,35 +554,35 @@ function rowToRecord_(sheet, rowIndex, restaurant, dishColumns) {
 }
 
 function findRecord_(sheet, restaurant, family) {
-  var rowIndex = findRowIndex_(sheet, family);
-  if (rowIndex === -1) return null;
-  return rowToRecord_(sheet, rowIndex, restaurant, getDishColumns_(restaurant));
+  var colIndex = findColIndex_(sheet, family);
+  if (colIndex === -1) return null;
+  return colToRecord_(sheet, colIndex, restaurant, getDishRows_(restaurant));
 }
 
 function getAllRecords_(sheet, restaurant) {
-  var dishColumns = getDishColumns_(restaurant);
-  var lastRow = sheet.getLastRow();
+  var dishRows = getDishRows_(restaurant);
+  var lastCol = sheet.getLastColumn();
   var records = [];
-  for (var r = DATA_START_ROW; r <= lastRow; r++) {
-    if (sheet.getRange(r, 1).getValue()) records.push(rowToRecord_(sheet, r, restaurant, dishColumns));
+  for (var c = DATA_START_COL; c <= lastCol; c++) {
+    if (sheet.getRange(1, c).getValue()) records.push(colToRecord_(sheet, c, restaurant, dishRows));
   }
   return records;
 }
 
 function upsertRecord_(sheet, restaurant, data) {
-  var dishColumns = getDishColumns_(restaurant);
-  var totalCols = FIXED_COLUMNS.length + dishColumns.length;
+  var dishRows = getDishRows_(restaurant);
+  var totalRows = FIXED_ROWS.length + dishRows.length;
 
-  var row = [data.family, data.guestCount, data.ts || new Date().toISOString()];
-  dishColumns.forEach(function (d) {
+  var col = [[data.family], [data.guestCount], [data.ts || new Date().toISOString()]];
+  dishRows.forEach(function (d) {
     var sel = data[d.category] || {};
-    row.push(sel[d.name] || 0);
+    col.push([sel[d.name] || 0]);
   });
 
-  var rowIndex = findRowIndex_(sheet, data.family);
-  if (rowIndex === -1) rowIndex = Math.max(sheet.getLastRow() + 1, DATA_START_ROW);
+  var colIndex = findColIndex_(sheet, data.family);
+  if (colIndex === -1) colIndex = Math.max(sheet.getLastColumn() + 1, DATA_START_COL);
 
-  sheet.getRange(rowIndex, 1, 1, totalCols).setValues([row]);
+  sheet.getRange(1, colIndex, totalRows, 1).setValues(col);
 }
 
 function jsonResponse_(obj) {
