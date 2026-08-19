@@ -43,7 +43,7 @@ dans un Google Sheet via un petit backend Google Apps Script (gratuit).
 
 ## Comment ça marche
 
-* Le choix du restaurant est désormais réglé sur **Kamancha** : Livingston, Malkhas Jazz Club, Mezzo et Lavash sont toujours définis dans le code (avec leurs menus) mais désactivés (`enabled: false`), donc l'étape de choix de restaurant ne s'affiche plus — la page va directement au formulaire famille/menu de Kamancha.
+* Deux restaurants sont actuellement actifs (`enabled: true`) : **Lavash** et **Kamancha** — l'étape de choix de restaurant s'affiche donc automatiquement. Livingston, Malkhas Jazz Club et Mezzo restent définis dans le code (avec leurs menus) mais désactivés (`enabled: false`).
 * Chaque famille choisit ses plats → au clic sur **Հաստատել ընտրությունը**, la page envoie les données au script Apps Script, qui les écrit (ou met à jour) dans l'onglet du Google Sheet correspondant au restaurant actif.
 * Le lien **« Տեսնել բոլորի ընտրությունը »** interroge le même script pour lire toutes les réponses du restaurant actuellement affiché.
 * Chaque restaurant a son propre onglet dans le Sheet (`Responses – Livingston`, `Responses – Malkhas Jazz Club`, `Responses – Mezzo`, `Responses – Lavash`, `Responses – Kamancha`), sous forme de vrai tableau : une ligne par famille, une colonne par plat (regroupées par catégorie sur la première ligne), avec la quantité choisie en valeur — rien n'est stocké en JSON, tout est directement lisible et sommable.
