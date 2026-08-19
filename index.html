@@ -175,8 +175,9 @@ body { margin: 0; background: #F8E6C0; }
 .restaurant-card-name { font-family: 'Noto Sans Armenian', serif; font-weight: 600; font-size: 16.5px; color: #2B1E17; }
 .restaurant-card-note { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
 
-.restaurant-logo { padding: 2rem 1.5rem 1.5rem; text-align: center; }
-.restaurant-logo svg { max-width: 280px; width: 100%; height: auto; filter: drop-shadow(0 2px 8px rgba(67,15,25,.08)); }
+.restaurant-logo { padding: 2.5rem 1.5rem 2rem; text-align: center; border-bottom: 2px solid var(--gold-light); }
+.restaurant-logo svg { max-width: 320px; width: 100%; height: auto; filter: drop-shadow(0 3px 12px rgba(67,15,25,.15)); margin-bottom: 1.2rem; }
+.restaurant-name { font-size: 28px; font-weight: 700; color: var(--wine-deep); font-family: 'Noto Sans Armenian', 'Cormorant Garamond', serif; margin: 0; letter-spacing: 0.5px; }
 
 /* --- curtain hero --- */
 .hero {
@@ -411,19 +412,20 @@ body { margin: 0; background: #F8E6C0; }
 
   <div id="restaurant-view">
     <div class="restaurant-logo">
-      <svg viewBox="0 0 300 140" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 360 180" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" style="stop-color:#6B1B28;stop-opacity:1" />
             <stop offset="100%" style="stop-color:#430F19;stop-opacity:1" />
           </linearGradient>
         </defs>
-        <rect width="300" height="140" fill="url(#logoBg)" rx="8"/>
-        <text x="150" y="35" font-family="'Noto Sans', -apple-system, sans-serif" font-size="18" font-weight="600" fill="#F8ECD8" text-anchor="middle" letter-spacing="2">HOUSE</text>
-        <text x="150" y="55" font-family="'Noto Sans', -apple-system, sans-serif" font-size="16" font-weight="400" fill="#F8ECD8" text-anchor="middle" letter-spacing="1">OF</text>
-        <text x="150" y="105" font-family="'Noto Sans Armenian', 'Cormorant Garamond', serif" font-size="48" font-weight="700" fill="#F8ECD8" text-anchor="middle">MARGOT</text>
-        <text x="175" y="85" font-family="'Noto Sans', sans-serif" font-size="12" fill="#F0C48A" text-anchor="start">®</text>
+        <rect width="360" height="180" fill="url(#logoBg)" rx="12"/>
+        <text x="180" y="42" font-family="'Noto Sans', -apple-system, sans-serif" font-size="24" font-weight="700" fill="#F8ECD8" text-anchor="middle" letter-spacing="3">HOUSE</text>
+        <text x="180" y="68" font-family="'Noto Sans', -apple-system, sans-serif" font-size="20" font-weight="500" fill="#F0C48A" text-anchor="middle" letter-spacing="2">OF</text>
+        <text x="180" y="140" font-family="'Cormorant Garamond', serif" font-size="62" font-weight="700" fill="#F8ECD8" text-anchor="middle">MARGOT</text>
+        <text x="225" y="110" font-family="'Noto Sans', sans-serif" font-size="16" fill="#F0C48A" text-anchor="start" font-weight="600">®</text>
       </svg>
+      <h2 class="restaurant-name">House of Margot</h2>
     </div>
     <div style="padding: 0 1.5rem 1.5rem;">
       <p style="font-size:13px; color:var(--muted); margin:0 0 1rem; line-height:1.6; text-align:center;">Ռեստորանի ընտրությունը դեռ վերջնական չէ։ Ընտրեք ստորև՝ տվյալ ռեստորանի ընտրացանկը տեսնելու համար։</p>
