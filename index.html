@@ -235,7 +235,7 @@ body { margin: 0; }
 
     <div style="position:relative; z-index:1; text-align:center;">
       <p style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#E8B23C; margin:0 0 0.7rem;">Ծննդյան տոն</p>
-      <h1 style="font-family:'Noto Sans Armenian','Cormorant Garamond',serif; font-weight:600; font-size:27px; color:#F3EEE3; margin:0; line-height:1.35;">Դիմավորենք Արսենի<br>50-ամյակը</h1>
+      <h1 id="home-title" style="font-family:'Noto Sans Armenian','Cormorant Garamond',serif; font-weight:600; font-size:27px; color:#F3EEE3; margin:0; line-height:1.35; cursor:pointer;">Դիմավորենք Արսենի<br>50-ամյակը</h1>
       <div style="width:64px; height:2px; background:#E8B23C; margin:1rem auto;"></div>
       <p style="font-size:13.5px; color:#C9D2D8; margin:0; letter-spacing:0.02em;">50 տարվա կյանք, ուրախություն ու սեր</p>
     </div>
@@ -1238,6 +1238,37 @@ body { margin: 0; }
     document.getElementById('thanks-view').style.display = 'none';
     renderRestaurantOptions();
     restaurantViewEl.style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
+  // Clicking the header title takes you back to the very start (restaurant
+  // picker if more than one is enabled, otherwise the family form) — same
+  // logic as the initial page load, further down.
+  document.getElementById('home-title').addEventListener('click', function(){
+    state.family = '';
+    familySelect.value = '';
+    countBlock.style.display = 'none';
+    categoriesEl.innerHTML = '';
+    document.getElementById('family-error').style.display = 'none';
+    document.getElementById('submit-error').style.display = 'none';
+    document.getElementById('network-error').style.display = 'none';
+    var existingNote = document.getElementById('existing-note');
+    if (existingNote) existingNote.remove();
+    document.getElementById('thanks-view').style.display = 'none';
+    document.getElementById('admin-view').style.display = 'none';
+
+    var avail = enabledRestaurants();
+    if (avail.length <= 1) {
+      state.restaurant = avail.length ? avail[0].id : '';
+      restaurantViewEl.style.display = 'none';
+      formViewEl.style.display = 'block';
+      updateRestaurantBar();
+    } else {
+      state.restaurant = '';
+      renderRestaurantOptions();
+      restaurantViewEl.style.display = 'block';
+      formViewEl.style.display = 'none';
+    }
     window.scrollTo(0, 0);
   });
 
